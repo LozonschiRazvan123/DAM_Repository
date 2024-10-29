@@ -8,7 +8,7 @@ import java.util.List;
 public class Furnizor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idFurnizor;
 
     private String nume;
     private String adresa;
