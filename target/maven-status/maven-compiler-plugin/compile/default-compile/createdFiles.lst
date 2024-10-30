@@ -1,1 +1,13 @@
+org\example\Model\ComandaProdus.class
+org\example\Model\Stoc.class
+org\example\Test\AlerteStocTest.class
+org\example\Model\ComandaAprovizionare.class
+org\example\Test\ComandaProdusTest.class
+org\example\Model\Vanzare.class
+org\example\Test\StocServiceTest.class
 org\example\Main.class
+org\example\Model\Produs.class
+org\example\Controller\UserController.class
+org\example\Model\Furnizor.class
+org\example\Model\VanzareProdus.class
+org\example\Model\AlerteStoc.class
