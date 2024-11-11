@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ComandaProdusTest {
+public class  ComandaProdusTest {
 
     private ComandaProdus comandaProdus;
     private ComandaAprovizionare comandaAprovizionare;

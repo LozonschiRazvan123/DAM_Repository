@@ -62,7 +62,7 @@ public class StocServiceTest {
     public void testCalculProfitProdus() {
         double profit = produs.getPretVanzare() - produs.getPretAchizitie();
         Assertions.assertEquals(20.0, profit, "Profitul ar trebui să fie 20.0");
-    }
+    } 
 
     @Test
     public void testVerificareStocSuficient() {
