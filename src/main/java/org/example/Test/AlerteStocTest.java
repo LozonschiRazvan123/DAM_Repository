@@ -5,6 +5,7 @@ import org.example.Model.Produs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,8 +17,11 @@ public class AlerteStocTest {
 
     @BeforeEach
     public void setUp() {
-        produs = new Produs();
-        alertaStoc = new AlerteStoc(1L, true, new Date());
+        produs = new Produs(1L, "Laptop", "Electronice", 2500.0, 1800.0, 10);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 1); // Setăm data alertei în viitor
+        alertaStoc = new AlerteStoc(1L, true, cal.getTime());
+        alertaStoc.setProdus(produs);
     }
 
     @Test
@@ -33,37 +37,79 @@ public class AlerteStocTest {
 
     @Test
     public void testGetProdus() {
-        assertEquals(produs, alertaStoc.getProdus(), "Produsul ar trebui sa fie cel inițializat în setUp()");
+        assertEquals(produs, alertaStoc.getProdus(), "Produsul ar trebui să fie cel inițializat în setUp()");
     }
 
     @Test
     public void testSetProdus() {
-        Produs newProdus = new Produs();
+        Produs newProdus = new Produs(2L, "Telefon", "Electronice", 1200.0, 900.0, 20);
         alertaStoc.setProdus(newProdus);
-        assertEquals(newProdus, alertaStoc.getProdus(), "Produsul ar trebui sa fie cel nou setat");
+        assertEquals(newProdus, alertaStoc.getProdus(), "Produsul ar trebui să fie cel nou setat");
     }
 
     @Test
-    public void testIsActiv() {
-        assertTrue(alertaStoc.isValid(), "Alerta ar trebui sa fie activă");
+    public void testIsActivCuDataViitoare() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        alertaStoc.setDataAlerta(cal.getTime());
+        alertaStoc.setActiv(true);
+
+        assertTrue(alertaStoc.isValid(), "Alerta ar trebui să fie activă dacă data este în viitor");
     }
 
     @Test
-    public void testSetActiv() {
+    public void testIsActivCuDataCurenta() {
+        alertaStoc.setDataAlerta(new Date());
+        alertaStoc.setActiv(true);
+        assertFalse(alertaStoc.isValid(), "Alerta ar trebui să fie activă dacă data este curentă");
+    }
+
+    @Test
+    public void testIsActivCuDataTrecuta() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -1); // Setăm data în trecut
+        alertaStoc.setDataAlerta(cal.getTime());
         alertaStoc.setActiv(false);
-        assertFalse(alertaStoc.isValid(), "Alerta ar trebui sa fie inactiva după setare");
+
+        assertTrue(alertaStoc.isValid(), "Alerta ar trebui să fie inactivă dacă data este în trecut");
     }
 
     @Test
-    public void testGetDataAlerta() {
-        Date dataAlerta = alertaStoc.getDataAlerta();
-        assertNotNull(dataAlerta, "Data alertei nu ar trebui sa fie null");
+    public void testValidareAutomataInFunctieDeData() {
+        // Testăm cu data viitoare și alertă activă
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 5);
+        alertaStoc.setDataAlerta(cal.getTime());
+        alertaStoc.setActiv(true);
+        assertTrue(alertaStoc.isValid(), "Alerta ar trebui să fie activă pentru o dată viitoare");
+
+        // Testăm cu data curentă
+        alertaStoc.setDataAlerta(new Date());
+        alertaStoc.setActiv(true);
+        assertFalse(alertaStoc.isValid(), "Alerta ar trebui să fie validă pentru data curentă");
+
+        // Testăm cu data trecută și alertă inactivă
+        cal.add(Calendar.DAY_OF_MONTH, -10);
+        alertaStoc.setDataAlerta(cal.getTime());
+        alertaStoc.setActiv(false);
+        assertTrue(alertaStoc.isValid(), "Alerta ar trebui să fie inactivă pentru o dată trecută");
     }
 
     @Test
-    public void testSetDataAlerta() {
-        Date newDataAlerta = new Date();
-        alertaStoc.setDataAlerta(newDataAlerta);
-        assertEquals(newDataAlerta, alertaStoc.getDataAlerta(), "Data alertei ar trebui sa fie cea nou setata");
+    public void testSetareDataInTrecutInvalid() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -10); // Setăm data în trecut
+        alertaStoc.setDataAlerta(cal.getTime());
+
+        assertFalse(alertaStoc.isValid(), "Alerta ar trebui să fie invalidă dacă data este în trecut și alertă activă");
+    }
+
+    @Test
+    public void testAlertaStocToString() {
+        String expectedString = "AlerteStoc [idAlerteStoc=" + alertaStoc.getIdAlerteStoc() +
+                ", produs=" + alertaStoc.getProdus().getNume() +
+                ", activ=" + alertaStoc.getActiv() +
+                ", dataAlerta=" + alertaStoc.getDataAlerta() + "]";
+        assertEquals(expectedString, alertaStoc.toString(), "Metoda toString ar trebui să returneze o reprezentare corectă");
     }
 }
