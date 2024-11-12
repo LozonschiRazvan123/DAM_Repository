@@ -52,4 +52,17 @@ public class Stoc implements Serializable {
         this.cantitate = newQuantity;
         this.dataUltimeiModificari = new Date();
     }
+    public void incrementStock(int quantity) {
+        if (quantity > 0) {
+            this.cantitate += quantity;
+            this.dataUltimeiModificari = new Date();
+        }
+    }
+
+    public void decrementStock(int quantity) {
+        if (quantity > 0 && this.cantitate - quantity >= 0) {
+            this.cantitate -= quantity;
+            this.dataUltimeiModificari = new Date();
+        }
+    }
 }

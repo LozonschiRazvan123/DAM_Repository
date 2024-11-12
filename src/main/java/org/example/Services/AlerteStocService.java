@@ -1,6 +1,7 @@
 package org.example.Services;
 
 import org.example.Model.AlerteStoc;
+import org.example.Model.Produs;
 import org.example.Repository.AlerteStocRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,12 @@ public class AlerteStocService {
 
     public List<AlerteStoc> findAlerteByProdusId(Long produsId) {
         return alerteStocRepository.findByProdusId(produsId);
+    }
+    public AlerteStoc createAlertForProduct(Produs produs) {
+        AlerteStoc alerta = new AlerteStoc();
+        alerta.setProdus(produs);
+        alerta.setDataAlerta(new Date());
+        alerta.setActiv(true);
+        return alerteStocRepository.save(alerta);
     }
 }
