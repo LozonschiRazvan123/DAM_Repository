@@ -26,7 +26,7 @@ public class StocServiceTest {
         Assertions.assertEquals(30.0, produs.getPretAchizitie());
         Assertions.assertEquals(100, produs.getStoc());
 
-        // Testăm setter-ele
+        // Testăm setter-ele cu valori noi
         produs.setNume("Minge baschet");
         produs.setCategorie("Sporturi de sală");
         produs.setPretVanzare(55.0);
@@ -62,18 +62,62 @@ public class StocServiceTest {
     public void testCalculProfitProdus() {
         double profit = produs.getPretVanzare() - produs.getPretAchizitie();
         Assertions.assertEquals(20.0, profit, "Profitul ar trebui să fie 20.0");
-    } 
+    }
+
+    @Test
+    public void testCalculProfitMarginalPeCantitate() {
+        int cantitate = 10;
+        double profitMarginal = (produs.getPretVanzare() - produs.getPretAchizitie()) * cantitate;
+        Assertions.assertEquals(200.0, profitMarginal, "Profitul marginal pentru 10 unități ar trebui să fie 200.0");
+    }
 
     @Test
     public void testVerificareStocSuficient() {
-        // Test pentru o cantitate care poate fi acoperită din stoc
         int cantitateSolicitata = 50;
         Assertions.assertTrue(produs.getStoc() >= cantitateSolicitata,
                 "Stocul ar trebui să fie suficient pentru cerere");
 
-        // Test pentru o cantitate mai mare decât stocul
         cantitateSolicitata = 150;
         Assertions.assertFalse(produs.getStoc() >= cantitateSolicitata,
                 "Stocul nu ar trebui să fie suficient pentru cerere");
+    }
+
+    @Test
+    public void testReducereStocDupaVanzare() {
+        int cantitateVanduta = 30;
+        produs.setStoc(produs.getStoc() - cantitateVanduta);
+        Assertions.assertEquals(70, produs.getStoc(),
+                "Stocul ar trebui să fie redus la 70 după vânzarea a 30 de unități");
+    }
+
+    @Test
+    public void testProfitNegativInCazDePretDeVanzareMaiMic() {
+        produs.setPretVanzare(25.0);
+        double profit = produs.getPretVanzare() - produs.getPretAchizitie();
+        Assertions.assertTrue(profit < 0, "Profitul ar trebui să fie negativ în cazul unui preț de vânzare mai mic decât costul de achiziție");
+    }
+
+    @Test
+    public void testModificarePretVanzareSiAchizitie() {
+        produs.setPretVanzare(60.0);
+        produs.setPretAchizitie(40.0);
+        Assertions.assertEquals(60.0, produs.getPretVanzare(), "Prețul de vânzare ar trebui să fie setat la 60.0");
+        Assertions.assertEquals(40.0, produs.getPretAchizitie(), "Prețul de achiziție ar trebui să fie setat la 40.0");
+    }
+
+    @Test
+    public void testPretVanzareZeroSauNegativ() {
+        produs.setPretVanzare(0.0);
+        Assertions.assertTrue(produs.getPretVanzare() >= 0, "Prețul de vânzare nu ar trebui să fie negativ");
+
+        produs.setPretVanzare(-10.0);
+        Assertions.assertFalse(produs.getPretVanzare() >= 0, "Prețul de vânzare nu ar trebui să fie negativ, chiar și după încercarea de setare la valoare negativă");
+    }
+
+    @Test
+    public void testCalculProfitInCazulStoculuiGol() {
+        produs.setStoc(0);
+        int cantitateSolicitata = 10;
+        Assertions.assertFalse(produs.getStoc() >= cantitateSolicitata, "Stocul ar trebui să fie insuficient pentru orice cerere atunci când este 0");
     }
 }

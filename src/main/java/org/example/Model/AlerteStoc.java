@@ -44,7 +44,10 @@ public class AlerteStoc implements Serializable {
 
     @Override
     public String toString() {
-        return "AlerteStoc [idAlerteStoc=" + idAlerteStoc + ", produs=" + produs +
-                ", activ=" + activ + ", dataAlerta=" + dataAlerta + "]";
+        return "AlerteStoc [idAlerteStoc=" + idAlerteStoc +
+                ", produs=" + (produs != null ? produs.getNume() : "null") +
+                ", activ=" + activ +
+                ", dataAlerta=" + dataAlerta + "]";
     }
+
 }
