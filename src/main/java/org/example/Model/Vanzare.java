@@ -1,58 +1,31 @@
 package org.example.Model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Entity
-public class Vanzare {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+import static jakarta.persistence.TemporalType.DATE;
 
+@Entity
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
+public class Vanzare {
+    @EqualsAndHashCode.Include
+    @NonNull
+    @Id
+    private Long id;
+    @Temporal(DATE)
+    @NonNull
     private Date data;
-    private double total;
+    @NonNull
+    private Double total;
 
     @OneToMany(mappedBy = "vanzare", cascade = CascadeType.ALL)
     private List<VanzareProdus> produseVandute;
-
-    public Vanzare(Long id, Date data, double total, List<VanzareProdus> produseVandute) {
-        this.id = id;
-        this.data = data;
-        this.total = total;
-        this.produseVandute = produseVandute;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public List<VanzareProdus> getProduseVandute() {
-        return produseVandute;
-    }
-
-    public void setProduseVandute(List<VanzareProdus> produseVandute) {
-        this.produseVandute = produseVandute;
-    }
 }

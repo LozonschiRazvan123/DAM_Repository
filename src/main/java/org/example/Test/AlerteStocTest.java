@@ -17,7 +17,7 @@ public class AlerteStocTest {
     @BeforeEach
     public void setUp() {
         produs = new Produs();
-        alertaStoc = new AlerteStoc(1L, produs, true, new Date());
+        alertaStoc = new AlerteStoc(1L, true, new Date());
     }
 
     @Test

@@ -1,18 +1,32 @@
 package org.example.Model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
+import static jakarta.persistence.TemporalType.DATE;
+
 @Entity
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter @Setter
 public class ComandaAprovizionare {
+    @EqualsAndHashCode.Include
+    @NonNull
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idComandaAprovizionare;
 
+    @Temporal(DATE)
+    @NonNull
     private Date dataComanda;
+    @Temporal(DATE)
+    @NonNull
     private Date dataLivrareEstimata;
+    @NonNull
     private String status;
 
     @ManyToOne
@@ -21,52 +35,4 @@ public class ComandaAprovizionare {
     @OneToMany(mappedBy = "comandaAprovizionare", cascade = CascadeType.ALL)
     private List<ComandaProdus> produseComandate;
 
-    public Long getIdComandaAprovizionare() {
-        return idComandaAprovizionare;
-    }
-
-    public void setIdComandaAprovizionare(Long idComandaAprovizionare) {
-        this.idComandaAprovizionare = idComandaAprovizionare;
-    }
-
-    public Date getDataComanda() {
-        return dataComanda;
-    }
-
-    public void setDataComanda(Date dataComanda) {
-        this.dataComanda = dataComanda;
-    }
-
-    public Date getDataLivrareEstimata() {
-        return dataLivrareEstimata;
-    }
-
-    public void setDataLivrareEstimata(Date dataLivrareEstimata) {
-        this.dataLivrareEstimata = dataLivrareEstimata;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Furnizor getFurnizor() {
-        return furnizor;
-    }
-
-    public void setFurnizor(Furnizor furnizor) {
-        this.furnizor = furnizor;
-    }
-
-    public List<ComandaProdus> getProduseComandate() {
-        return produseComandate;
-    }
-
-    public void setProduseComandate(List<ComandaProdus> produseComandate) {
-        this.produseComandate = produseComandate;
-    }
-// getters și setters
 }

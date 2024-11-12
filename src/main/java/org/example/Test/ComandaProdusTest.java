@@ -14,9 +14,9 @@ public class  ComandaProdusTest {
 
     @BeforeEach
     public void setUp() {
-        comandaAprovizionare = new ComandaAprovizionare();
+        //comandaAprovizionare = new ComandaAprovizionare();
         produs = new Produs();
-        comandaProdus = new ComandaProdus(1L, comandaAprovizionare, produs, 10, 20.5);
+        comandaProdus = new ComandaProdus(1L, 10, 20.5);
     }
 
     @Test
