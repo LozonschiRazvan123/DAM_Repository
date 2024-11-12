@@ -45,13 +45,13 @@ public class AlerteStocTest {
 
     @Test
     public void testIsActiv() {
-        assertTrue(alertaStoc.isActiv(), "Alerta ar trebui sa fie activă");
+        assertTrue(alertaStoc.isValid(), "Alerta ar trebui sa fie activă");
     }
 
     @Test
     public void testSetActiv() {
         alertaStoc.setActiv(false);
-        assertFalse(alertaStoc.isActiv(), "Alerta ar trebui sa fie inactiva după setare");
+        assertFalse(alertaStoc.isValid(), "Alerta ar trebui sa fie inactiva după setare");
     }
 
     @Test
