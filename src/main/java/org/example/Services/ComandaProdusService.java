@@ -49,11 +49,11 @@ public class ComandaProdusService {
 
     // Custom Query - Get by ComandaAprovizionare ID
     public List<ComandaProdus> getComandaProduseByComandaId(Long comandaId) {
-        return comandaProdusRepository.findByComandaAprovizionareId(comandaId);
+        return comandaProdusRepository.findByComandaAprovizionare_IdComandaAprovizionare(comandaId);
     }
 
     // Custom Query - Get by Produs ID
     public List<ComandaProdus> getComandaProduseByProdusId(Long produsId) {
-        return comandaProdusRepository.findByProdusId(produsId);
+        return comandaProdusRepository.findByProdus_IdProdus(produsId);
     }
 }

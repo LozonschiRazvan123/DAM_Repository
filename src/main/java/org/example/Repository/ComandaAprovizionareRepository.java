@@ -11,5 +11,6 @@ import java.util.List;
 public interface ComandaAprovizionareRepository extends JpaRepository<ComandaAprovizionare, Long> {
     List<ComandaAprovizionare> findByStatus(String status);
     List<ComandaAprovizionare> findByDataComandaAfter(Date date);
-    List<ComandaAprovizionare> findByFurnizorId(Long furnizorId);
+    List<ComandaAprovizionare> findByFurnizor_IdFurnizor(Long idFurnizor);
+
 }

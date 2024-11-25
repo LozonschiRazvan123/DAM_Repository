@@ -44,6 +44,10 @@ public class Produs implements Serializable, Comparable<Produs> {
     @Min(value = 0, message = "Stock cannot be negative!")
     private Integer stoc;
 
+    @ManyToOne
+    @JoinColumn(name = "furnizor_id", referencedColumnName = "idFurnizor", nullable = false)
+    @NotNull(message = "Supplier is required!")
+    private Furnizor furnizor;
 
     @Override
     public String toString() {

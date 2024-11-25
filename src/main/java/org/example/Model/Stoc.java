@@ -28,8 +28,10 @@ public class Stoc implements Serializable {
     private Long idStoc;
 
     @OneToOne
+    @JoinColumn(name = "produs_id", referencedColumnName = "idProdus", nullable = false)
     @NotNull(message = "Product is required!")
     private Produs produs;
+
 
     @NonNull
     @Min(value = 0, message = "Quantity must be zero or greater!")

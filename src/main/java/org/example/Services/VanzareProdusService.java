@@ -54,6 +54,6 @@ public class VanzareProdusService {
 
     // Custom Query - Get by Produs ID
     public List<VanzareProdus> getProduseByProdusId(Long produsId) {
-        return vanzareProdusRepository.findByProdusId(produsId);
+        return vanzareProdusRepository.findByProdus_IdProdus(produsId);
     }
 }

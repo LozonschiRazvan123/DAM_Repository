@@ -41,6 +41,10 @@ public class ProdusService {
         return null;
     }
 
+    public List<Produs> findProduseByFurnizorId(Long idFurnizor) {
+        return produsRepository.findByFurnizor_IdFurnizor(idFurnizor);
+    }
+
     // Delete
     public void deleteProduse(Long id) {
         produsRepository.deleteById(id);

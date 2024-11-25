@@ -55,4 +55,8 @@ public class ComandaAprovizionareService {
     public List<ComandaAprovizionare> findComenziAfterDate(Date date) {
         return comandaAprovizionareRepository.findByDataComandaAfter(date);
     }
+
+    public List<ComandaAprovizionare> findComenziByFurnizorId(Long furnizorId) {
+        return comandaAprovizionareRepository.findByFurnizor_IdFurnizor(furnizorId);
+    }
 }

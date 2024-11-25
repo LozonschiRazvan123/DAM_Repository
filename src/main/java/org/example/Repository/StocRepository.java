@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface StocRepository extends JpaRepository<Stoc, Long> {
     List<Stoc> findByCantitateLessThan(int cantitate);
-    Optional<Stoc> findByProdusId(Long produsId);
+    Optional<Stoc> findByProdus_IdProdus(Long idProdus);
     Optional<Stoc> findByProdus(Produs produs);
 }

@@ -90,11 +90,7 @@ public class StocService {
     }
 
     public Stoc getFirstStocByProdusId(Long produsId) {
-        Optional<Stoc> stocList = stocRepository.findByProdusId(produsId);
-        if (!stocList.isEmpty()) {
-            return stocList.get();
-        } else {
-            throw new NoSuchElementException("Stoc not found for product ID: " + produsId);
-        }
+        return stocRepository.findByProdus_IdProdus(produsId)
+                .orElseThrow(() -> new NoSuchElementException("Stoc not found for product ID: " + produsId));
     }
 }

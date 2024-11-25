@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ComandaProdusRepository extends JpaRepository<ComandaProdus, Long> {
-    List<ComandaProdus> findByComandaAprovizionareId(Long comandaId);
-    List<ComandaProdus> findByProdusId(Long produsId);
+    List<ComandaProdus> findByComandaAprovizionare_IdComandaAprovizionare(Long comandaAprovizionareId);
+    List<ComandaProdus> findByProdus_IdProdus(Long produsId);
 }

@@ -54,8 +54,9 @@ public class AlerteStocService {
     }
 
     public List<AlerteStoc> findAlerteByProdusId(Long produsId) {
-        return alerteStocRepository.findByProdusId(produsId);
+        return alerteStocRepository.findByProdus_IdProdus(produsId);
     }
+
     public AlerteStoc createAlertForProduct(Produs produs) {
         AlerteStoc alerta = new AlerteStoc();
         alerta.setProdus(produs);
