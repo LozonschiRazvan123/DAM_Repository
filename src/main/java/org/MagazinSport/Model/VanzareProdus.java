@@ -63,4 +63,11 @@ public class VanzareProdus implements Serializable, Comparable<VanzareProdus> {
 
         return this.cantitate != null && this.cantitate > 0;
     }
+
+    public VanzareProdus(Vanzare vanzare, Produs produs, @NonNull Integer cantitate, @NonNull Double pretUnitate) {
+        this.vanzare = vanzare;
+        this.produs = produs;
+        this.cantitate = cantitate;
+        this.pretUnitate = pretUnitate;
+    }
 }

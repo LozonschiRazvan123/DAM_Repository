@@ -67,4 +67,10 @@ public class Stoc implements Serializable {
             this.dataUltimeiModificari = new Date();
         }
     }
+    public Stoc(Produs produs, Integer cantitate, Integer nivelMinim, Date dataUltimeiModificari) {
+        this.produs = produs;
+        this.cantitate = cantitate;
+        this.nivelMinim = nivelMinim;
+        this.dataUltimeiModificari = dataUltimeiModificari;
+    }
 }

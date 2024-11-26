@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
-
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -16,16 +15,17 @@ import java.util.Date;
 public class AlerteStoc implements Serializable {
 
     @EqualsAndHashCode.Include
-    @NonNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(1)
     @NotNull(message = "Alert ID is required!")
     private Long idAlerteStoc;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = false)
-    @NotNull(message = "Associated product is required!")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "produs_id", nullable = false)
     private Produs produs;
+
+
 
     @NonNull
     @NotNull(message = "Active status is required!")
@@ -39,7 +39,8 @@ public class AlerteStoc implements Serializable {
 
     @AssertTrue(message = "Alert must be active if the alert date is in the future!")
     public Boolean isValid() {
-        return (this.dataAlerta != null && this.dataAlerta.after(new Date())) == this.activ;
+        return (this.dataAlerta != null) &&
+                (this.dataAlerta.after(new Date()) == Boolean.TRUE.equals(this.activ));
     }
 
     @Override
@@ -48,6 +49,12 @@ public class AlerteStoc implements Serializable {
                 ", produs=" + (produs != null ? produs.getNume() : "null") +
                 ", activ=" + activ +
                 ", dataAlerta=" + dataAlerta + "]";
+    }
+
+    public AlerteStoc(Produs produs, @NonNull Boolean activ, @NonNull Date dataAlerta) {
+        this.produs = produs;
+        this.activ = activ;
+        this.dataAlerta = dataAlerta;
     }
 
 }
