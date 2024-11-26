@@ -1,7 +1,7 @@
 package org.example.SeedData;
 
-import org.example.Model.*;
-import org.example.Repository.*;
+import org.MagazinSport.Model.*;
+import org.MagazinSport.Repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +33,8 @@ public class DataInitializer {
             stocRepository.deleteAllInBatch();
             produsRepository.deleteAllInBatch();
             furnizorRepository.deleteAllInBatch();
+
+            System.out.println("Popularea bazei de date...");
 
             // Populare Furnizor
             Furnizor furnizor1 = furnizorRepository.save(new Furnizor("Furnizor1", "Adresa1", "+40712345678", "email1@example.com"));
@@ -70,5 +72,6 @@ public class DataInitializer {
             Vanzare vanzare1 = vanzareRepository.save(new Vanzare(new Date(), 200.0));
             VanzareProdus vanzareProdus1 = vanzareProdusRepository.save(new VanzareProdus(vanzare1, produs1, 2, 100.0));
         };
+
     }
 }
