@@ -21,10 +21,9 @@ public class AlerteStoc implements Serializable {
     @NotNull(message = "Alert ID is required!")
     private Long idAlerteStoc;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "produs_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "produs_id")
     private Produs produs;
-
 
 
     @NonNull

@@ -1,4 +1,4 @@
-package org.example.SeedData;
+package org.MagazinSport.SeedData;
 
 import org.MagazinSport.Model.*;
 import org.MagazinSport.Repository.*;
