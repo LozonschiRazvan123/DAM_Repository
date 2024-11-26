@@ -20,9 +20,9 @@ public class AlerteStocTest {
         produs = new Produs(1L, "Laptop", "Electronice", 2500.0, 1800.0, 10);
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, 1); // Setăm data alertei în viitor
-        alertaStoc = new AlerteStoc(1L, true, cal.getTime());
-        alertaStoc.setProdus(produs);
+        alertaStoc = new AlerteStoc(produs, true, cal.getTime());
     }
+
 
     @Test
     public void testGetIdAlerteStoc() {

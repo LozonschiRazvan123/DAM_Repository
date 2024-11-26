@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,5 +53,11 @@ public class Vanzare implements Serializable {
     public String toString() {
         return "Vanzare [id=" + id + ", data=" + data + ", total=" + total +
                 ", produseVandute=" + produseVandute + "]";
+    }
+
+    public Vanzare(@NonNull Date data, @NonNull Double total) {
+        this.data = data;
+        this.total = total;
+        this.produseVandute = new ArrayList<>(); // Inițializează lista
     }
 }

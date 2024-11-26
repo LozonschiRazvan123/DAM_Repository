@@ -66,8 +66,17 @@ public class Produs implements Serializable, Comparable<Produs> {
         }
         return 0.0;
     }
+    public Produs(String nume, String categorie, Double pretVanzare, Double pretAchizitie, Integer stoc, Furnizor furnizor) {
+        this.nume = nume;
+        this.categorie = categorie;
+        this.pretVanzare = pretVanzare;
+        this.pretAchizitie = pretAchizitie;
+        this.stoc = stoc;
+        this.furnizor = furnizor;
+    }
 
     public Boolean isStockLow(int threshold) {
         return this.stoc != null && this.stoc < threshold;
     }
 }
+

@@ -46,7 +46,12 @@ public class Furnizor implements Serializable {
     @OneToMany(mappedBy = "furnizor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Produs> produse;
 
-
+    public Furnizor(String nume, String adresa, String telefon, String email) {
+        this.nume = nume;
+        this.adresa = adresa;
+        this.telefon = telefon;
+        this.email = email;
+    }
     @Override
     public String toString() {
         return "Furnizor [idFurnizor=" + idFurnizor + ", nume=" + nume + ", adresa=" + adresa +

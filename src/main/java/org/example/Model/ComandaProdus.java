@@ -50,4 +50,11 @@ public class ComandaProdus implements Serializable, Comparable<ComandaProdus> {
         return "ComandaProdus [id=" + id + ", comandaAprovizionare=" + comandaAprovizionare +
                 ", produs=" + produs + ", cantitate=" + cantitate + ", pretUnitate=" + pretUnitate + "]";
     }
+
+    public ComandaProdus(ComandaAprovizionare comandaAprovizionare, Produs produs, @NonNull Integer cantitate, @NonNull Double pretUnitate) {
+        this.comandaAprovizionare = comandaAprovizionare;
+        this.produs = produs;
+        this.cantitate = cantitate;
+        this.pretUnitate = pretUnitate;
+    }
 }

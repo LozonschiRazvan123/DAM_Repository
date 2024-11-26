@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +48,6 @@ public class ComandaAprovizionare implements Serializable {
     private Furnizor furnizor;
 
     @OneToMany(mappedBy = "comandaAprovizionare", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @NotEmpty(message = "The order must contain at least one ordered product!")
     private List<ComandaProdus> produseComandate;
 
     @AssertTrue(message = "Estimated delivery date must be after the order date!")
@@ -60,5 +60,13 @@ public class ComandaAprovizionare implements Serializable {
         return "ComandaAprovizionare [idComandaAprovizionare=" + idComandaAprovizionare + ", dataComanda=" + dataComanda +
                 ", dataLivrareEstimata=" + dataLivrareEstimata + ", status=" + status + ", furnizor=" + furnizor +
                 ", produseComandate=" + produseComandate + "]";
+    }
+
+    public ComandaAprovizionare(@NonNull Date dataComanda, @NonNull Date dataLivrareEstimata, @NonNull String status, Furnizor furnizor) {
+        this.dataComanda = dataComanda;
+        this.dataLivrareEstimata = dataLivrareEstimata;
+        this.status = status;
+        this.furnizor = furnizor;
+        this.produseComandate = new ArrayList<>(); // Inițializează lista
     }
 }
