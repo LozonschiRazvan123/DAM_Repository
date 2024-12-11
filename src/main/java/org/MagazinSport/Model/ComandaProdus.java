@@ -1,5 +1,6 @@
 package org.MagazinSport.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ public class ComandaProdus implements Serializable, Comparable<ComandaProdus> {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @NotNull(message = "The associated supply order is required!")
+    @JsonIgnore
     private ComandaAprovizionare comandaAprovizionare;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
