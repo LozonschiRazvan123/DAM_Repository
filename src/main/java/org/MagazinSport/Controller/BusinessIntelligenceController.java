@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/business-intelligence")
-public class BusinessIntelligenceController {
+public class  BusinessIntelligenceController {
 
     private final BusinessIntelligenceService businessIntelligenceService;
     private final ProdusService produsService;
