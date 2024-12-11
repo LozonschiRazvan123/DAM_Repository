@@ -14,13 +14,17 @@ public class ProdusService {
     private final ProdusRepository produsRepository;
 
     @Autowired
-    public ProdusService(ProdusRepository produseRepository) {
-        this.produsRepository = produseRepository;
+    public ProdusService(ProdusRepository produsRepository) {
+        this.produsRepository = produsRepository;
     }
 
     // Create
-    public Produs saveProduse(Produs produse) {
-        return produsRepository.save(produse);
+    public Produs saveProdus(Produs produs) {
+        // Validare suplimentară înainte de salvare, dacă este necesar
+        if (produs.getStoc() < 0) {
+            throw new IllegalArgumentException("Stocul nu poate fi negativ!");
+        }
+        return produsRepository.save(produs);
     }
 
     // Read
@@ -28,29 +32,40 @@ public class ProdusService {
         return produsRepository.findAll();
     }
 
-    public Optional<Produs> getProduseById(Long id) {
+    public Optional<Produs> getProdusById(Long id) {
         return produsRepository.findById(id);
     }
 
     // Update
-    public Produs updateProduse(Long id, Produs produse) {
-        if (produsRepository.existsById(id)) {
-            produse.setIdProdus(id);
-            return produsRepository.save(produse);
+    public Produs updateProdus(Long id, Produs produs) {
+        if (!produsRepository.existsById(id)) {
+            throw new IllegalArgumentException("Produsul cu ID-ul " + id + " nu a fost găsit!");
         }
-        return null;
+
+        // Actualizează doar câmpurile care se pot modifica
+        produs.setIdProdus(id);
+
+        // Validare suplimentară înainte de salvare
+        if (produs.getStoc() < 0) {
+            throw new IllegalArgumentException("Stocul nu poate fi negativ!");
+        }
+
+        return produsRepository.save(produs);
     }
 
+    // Delete
+    public void deleteProdus(Long id) {
+        if (!produsRepository.existsById(id)) {
+            throw new IllegalArgumentException("Produsul cu ID-ul " + id + " nu există!");
+        }
+        produsRepository.deleteById(id);
+    }
+
+    // Căutări suplimentare
     public List<Produs> findProduseByFurnizorId(Long idFurnizor) {
         return produsRepository.findByFurnizor_IdFurnizor(idFurnizor);
     }
 
-    // Delete
-    public void deleteProduse(Long id) {
-        produsRepository.deleteById(id);
-    }
-
-    // Metode suplimentare
     public List<Produs> findProduseByCategorie(String categorie) {
         return produsRepository.findByCategorie(categorie);
     }

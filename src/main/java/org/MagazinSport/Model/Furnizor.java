@@ -1,5 +1,6 @@
 package org.MagazinSport.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -44,6 +45,7 @@ public class Furnizor implements Serializable {
     private String email;
 
     @OneToMany(mappedBy = "furnizor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Produs> produse;
 
     public Furnizor(String nume, String adresa, String telefon, String email) {
