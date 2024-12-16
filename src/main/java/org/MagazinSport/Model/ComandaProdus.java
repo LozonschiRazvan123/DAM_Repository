@@ -1,11 +1,13 @@
 package org.MagazinSport.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Data
@@ -25,6 +27,7 @@ public class ComandaProdus implements Serializable, Comparable<ComandaProdus> {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @NotNull(message = "The associated supply order is required!")
+    @JsonIgnore
     private ComandaAprovizionare comandaAprovizionare;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -39,22 +42,26 @@ public class ComandaProdus implements Serializable, Comparable<ComandaProdus> {
     @Min(value = 0, message = "Unit price must be non-negative!")
     private Double pretUnitate;
 
+    @NotNull(message = "Order date is required!")
+    @Temporal(TemporalType.DATE)
+    private Date dataComanda;
+
     @Override
     public int compareTo(ComandaProdus other) {
         return this.id.compareTo(other.getId());
     }
 
-
     @Override
     public String toString() {
         return "ComandaProdus [id=" + id + ", comandaAprovizionare=" + comandaAprovizionare +
-                ", produs=" + produs + ", cantitate=" + cantitate + ", pretUnitate=" + pretUnitate + "]";
+                ", produs=" + produs + ", cantitate=" + cantitate + ", pretUnitate=" + pretUnitate + ", dataComanda=" + dataComanda + "]";
     }
 
-    public ComandaProdus(ComandaAprovizionare comandaAprovizionare, Produs produs, @NonNull Integer cantitate, @NonNull Double pretUnitate) {
+    public ComandaProdus(ComandaAprovizionare comandaAprovizionare, Produs produs, @NonNull Integer cantitate, @NonNull Double pretUnitate, @NonNull Date dataComanda) {
         this.comandaAprovizionare = comandaAprovizionare;
         this.produs = produs;
         this.cantitate = cantitate;
         this.pretUnitate = pretUnitate;
+        this.dataComanda = dataComanda;
     }
 }

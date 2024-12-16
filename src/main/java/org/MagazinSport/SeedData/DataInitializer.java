@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +49,23 @@ public class DataInitializer {
             ComandaAprovizionare comanda1 = comandaAprovizionareRepository.save(
                     new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 86400000L), "Pending", furnizor1)
             );
+            ComandaAprovizionare comanda2 = comandaAprovizionareRepository.save(
+                    new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 86400000L), "Pending", furnizor2)
+            );
 
-            comandaProdusRepository.save(new ComandaProdus(comanda1, produs1, 2, 50.0));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataComanda = dateFormat.parse("10/11/2024");
 
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataComanda2 = dateFormat2.parse("10/10/2024");
+
+            comandaProdusRepository.save(
+                    new ComandaProdus(comanda1, produs1, 8, 20.0, dataComanda)
+            );
+
+            comandaProdusRepository.save(
+                    new ComandaProdus(comanda2, produs2, 5, 40.0, dataComanda2)
+            );
             Vanzare vanzare1 = vanzareRepository.save(new Vanzare(new Date(), 200.0));
             vanzareProdusRepository.save(new VanzareProdus(vanzare1, produs1, 2, 100.0));
         };
