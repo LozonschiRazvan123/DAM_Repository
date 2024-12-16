@@ -34,12 +34,19 @@ public class FurnizorService {
 
     // Update
     public Furnizor updateFurnizor(Long id, Furnizor furnizor) {
-        if (furnizorRepository.existsById(id)) {
-            furnizor.setIdFurnizor(id);
-            return furnizorRepository.save(furnizor);
+        Optional<Furnizor> existingFurnizor = furnizorRepository.findById(id);
+
+        if (existingFurnizor.isPresent()) {
+            Furnizor furnizorToUpdate = existingFurnizor.get();
+            furnizorToUpdate.setNume(furnizor.getNume());
+            furnizorToUpdate.setEmail(furnizor.getEmail());
+            furnizorToUpdate.setAdresa(furnizor.getAdresa());
+            furnizorToUpdate.setTelefon(furnizor.getTelefon());
+            return furnizorRepository.save(furnizorToUpdate);
         }
         return null;
     }
+
 
     // Delete
     public void deleteFurnizor(Long id) {
