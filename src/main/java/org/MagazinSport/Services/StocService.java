@@ -26,6 +26,10 @@ public class StocService {
         return stocRepository.save(stoc);
     }
 
+    public boolean existsById(Long id) {
+        return stocRepository.existsById(id);
+    }
+
     // Read
     public List<Stoc> getAllStocuri() {
         return stocRepository.findAll();
@@ -40,19 +44,25 @@ public class StocService {
         if (stocRepository.existsById(id)) {
             stoc.setIdStoc(id);
             return stocRepository.save(stoc);
+        } else {
+            throw new NoSuchElementException("Stoc with ID " + id + " does not exist.");
         }
-        return null;
     }
 
     // Delete
     public void deleteStoc(Long id) {
-        stocRepository.deleteById(id);
+        if (stocRepository.existsById(id)) {
+            stocRepository.deleteById(id);
+        } else {
+            throw new NoSuchElementException("Stoc with ID " + id + " does not exist.");
+        }
     }
 
     // Metode suplimentare
     public List<Stoc> findStocBelowQuantity(int cantitate) {
         return stocRepository.findByCantitateLessThan(cantitate);
     }
+
     public Stoc findOrCreateStoc(Produs produs) {
         return stocRepository.findByProdus(produs)
                 .orElseGet(() -> {
@@ -78,12 +88,14 @@ public class StocService {
         stoc.setDataUltimeiModificari(new Date());
         stocRepository.save(stoc);
     }
+
     public void updateStock(Produs produs, int newQuantity) {
         Stoc stoc = findOrCreateStoc(produs);
         stoc.updateStock(newQuantity);
         stoc.setDataUltimeiModificari(new Date());
         stocRepository.save(stoc);
     }
+
     public boolean isBelowMinimumLevel(Produs produs) {
         Stoc stoc = findOrCreateStoc(produs);
         return stoc.isBelowMinimumLevel();

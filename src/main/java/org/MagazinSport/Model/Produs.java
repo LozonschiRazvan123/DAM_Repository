@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
-
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -49,6 +48,16 @@ public class Produs implements Serializable, Comparable<Produs> {
     @NotNull(message = "Supplier is required!")
     private Furnizor furnizor;
 
+    // Constructorul pentru POST și PUT
+    public Produs(String nume, String categorie, Double pretVanzare, Double pretAchizitie, Integer stoc, Furnizor furnizor) {
+        this.nume = nume;
+        this.categorie = categorie;
+        this.pretVanzare = pretVanzare;
+        this.pretAchizitie = pretAchizitie;
+        this.stoc = stoc;
+        this.furnizor = furnizor; // Asigură-te că furnizorul există deja sau este valid
+    }
+
     @Override
     public String toString() {
         return "Produs [idProdus=" + idProdus + ", nume=" + nume + ", categorie=" + categorie +
@@ -66,17 +75,8 @@ public class Produs implements Serializable, Comparable<Produs> {
         }
         return 0.0;
     }
-    public Produs(String nume, String categorie, Double pretVanzare, Double pretAchizitie, Integer stoc, Furnizor furnizor) {
-        this.nume = nume;
-        this.categorie = categorie;
-        this.pretVanzare = pretVanzare;
-        this.pretAchizitie = pretAchizitie;
-        this.stoc = stoc;
-        this.furnizor = furnizor;
-    }
 
     public Boolean isStockLow(int threshold) {
         return this.stoc != null && this.stoc < threshold;
     }
 }
-

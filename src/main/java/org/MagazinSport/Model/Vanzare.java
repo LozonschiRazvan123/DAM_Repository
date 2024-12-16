@@ -1,5 +1,6 @@
 package org.MagazinSport.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +39,7 @@ public class Vanzare implements Serializable {
     private Double total;
 
     @OneToMany(mappedBy = "vanzare", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<VanzareProdus> produseVandute;
 
     public Double calculateTotal() {
