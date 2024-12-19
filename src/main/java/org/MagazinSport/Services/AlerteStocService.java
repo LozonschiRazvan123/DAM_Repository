@@ -2,9 +2,13 @@ package org.MagazinSport.Services;
 
 import org.MagazinSport.Model.AlerteStoc;
 import org.MagazinSport.Model.Produs;
+import org.MagazinSport.Model.Stoc;
 import org.MagazinSport.Repository.AlerteStocRepository;
+import org.MagazinSport.Repository.ProdusRepository;
+import org.MagazinSport.Repository.StocRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -13,55 +17,66 @@ import java.util.Optional;
 @Service
 public class AlerteStocService {
 
-    private final AlerteStocRepository alerteStocRepository;
+    @Autowired
+    private AlerteStocRepository alerteStocRepository;
 
     @Autowired
-    public AlerteStocService(AlerteStocRepository alerteStocRepository) {
-        this.alerteStocRepository = alerteStocRepository;
+    private StocRepository stocRepository;
+
+    @Autowired
+    private ProdusRepository produsRepository;
+
+    @Transactional
+    public void generateAlerteForLowStock() {
+        List<Stoc> stocuri = stocRepository.findAll();
+
+        for (Stoc stoc : stocuri) {
+            Produs produs = stoc.getProdus();
+            if (stoc.isBelowMinimumLevel()) {
+                boolean alertExist = alerteStocRepository.existsByProdus(produs);
+                if (!alertExist) {
+                    AlerteStoc alerta = new AlerteStoc(produs, true, new Date());
+                    alerteStocRepository.save(alerta);
+                }
+            }
+        }
     }
 
-    // Create
-    public AlerteStoc saveAlerteStoc(AlerteStoc alerta) {
-        return alerteStocRepository.save(alerta);
-    }
-
-    // Read
     public List<AlerteStoc> getAllAlerteStoc() {
         return alerteStocRepository.findAll();
     }
 
-    public Optional<AlerteStoc> getAlerteStocById(Long id) {
-        return alerteStocRepository.findById(id);
+    public List<AlerteStoc> getActiveAlerteStoc() {
+        return alerteStocRepository.findByActivTrue();
     }
 
-    // Update
-    public AlerteStoc updateAlerteStoc(Long id, AlerteStoc alerta) {
-        if (alerteStocRepository.existsById(id)) {
-            alerta.setIdAlerteStoc(id);
-            return alerteStocRepository.save(alerta);
+    public String generateAlerts() {
+        AlerteStoc alertaNoua = new AlerteStoc();
+        alertaNoua.setActiv(true);
+        Optional<Produs> produs = produsRepository.findById(1L);
+        if (produs != null) {
+            alertaNoua.setProdus(produs.get());
+        } else {
+            return "Produsul nu a fost găsit!";
         }
-        return null;
+        alertaNoua.setDataAlerta(new Date(2024/12/17));
+
+        alerteStocRepository.save(alertaNoua);
+
+        return "Alerta de stoc a fost generată cu succes!";
+    }
+    public AlerteStoc findById(Long id) {
+        Optional<AlerteStoc> alerta = alerteStocRepository.findById(id);
+        return alerta.orElse(null);  // Returnăm alerta sau null dacă nu o găsim
     }
 
-    // Delete
-    public void deleteAlerteStoc(Long id) {
-        alerteStocRepository.deleteById(id);
-    }
+    // Alte metode pentru gestionarea alertelor de stoc
 
-    // Metode suplimentare
-    public List<AlerteStoc> findActiveAlerte() {
+    public List<AlerteStoc> getAlerteActive() {
         return alerteStocRepository.findByActiv(true);
     }
 
-    public List<AlerteStoc> findAlerteByProdusId(Long produsId) {
-        return alerteStocRepository.findByProdus_IdProdus(produsId);
-    }
-
-    public AlerteStoc createAlertForProduct(Produs produs) {
-        AlerteStoc alerta = new AlerteStoc();
-        alerta.setProdus(produs);
-        alerta.setDataAlerta(new Date());
-        alerta.setActiv(true);
-        return alerteStocRepository.save(alerta);
+    public void saveAlert(AlerteStoc alerta) {
+        alerteStocRepository.save(alerta);  // Salvăm alerta actualizată
     }
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerte Stoc Active</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .generate-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .generate-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Alerte Stoc Active</h1>
+
+    <!-- Mesaj de succes -->
+    <div th:if="${message}" class="alert alert-info" role="alert">
+        <span th:text="${message}"></span>
+    </div>
+
+    <!-- Listă cu alertele active -->
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Produs</th>
+            <th>Data Alertă</th>
+            <th>Status</th>
+            <th>Actiune</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="alerta : ${alerte}">
+            <td th:text="${alerta.idAlerteStoc}"></td>
+            <td th:text="${alerta.produs.nume}"></td>
+            <td th:text="${alerta.dataAlerta}"></td>
+            <td th:text="${alerta.activ ? 'Activă' : 'Inactivă'}"></td>
+            <td>
+                <form th:action="@{/alerte-stoc/rezolva/{id}(id=${alerta.idAlerteStoc})}" method="get">
+                    <button type="submit" class="resolve-btn">Rezolvă</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="form-container" th:if="${alerta != null}">
+        <h3>Rezolvă alerta pentru produsul <span th:text="${alerta.produs.nume}"></span></h3>
+        <form th:action="@{/alerte-stoc/rezolva/{id}(id=${alerta.idAlerteStoc})}" method="post">
+            <label for="cantitateAdaugata">Cantitate Adăugată:</label>
+            <input type="number" id="cantitateAdaugata" name="cantitateAdaugata" required="required" min="1">
+            <button type="submit">Rezolvă Alerta</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

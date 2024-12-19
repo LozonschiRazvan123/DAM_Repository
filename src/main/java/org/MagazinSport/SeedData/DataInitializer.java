@@ -25,49 +25,61 @@ public class DataInitializer {
             VanzareProdusRepository vanzareProdusRepository
     ) {
         return args -> {
-            // Verifică dacă baza de date este deja populată
-            if (furnizorRepository.count() > 0 || produsRepository.count() > 0) {
-                System.out.println("Exists");
-                return;
+            /*alerteStocRepository.deleteAll();
+            comandaProdusRepository.deleteAll();
+            comandaAprovizionareRepository.deleteAll();
+            vanzareProdusRepository.deleteAll();
+            vanzareRepository.deleteAll();
+            stocRepository.deleteAll();
+            produsRepository.deleteAll();
+            furnizorRepository.deleteAll();*/
+            if (furnizorRepository.count() == 0) {
+                Furnizor furnizor1 = furnizorRepository.save(new Furnizor("Furnizor1", "Adresa1", "+40712345678", "email1@example.com"));
+                Furnizor furnizor2 = furnizorRepository.save(new Furnizor("Furnizor2", "Adresa2", "+40798765432", "email2@example.com"));
+                Furnizor furnizor3 = furnizorRepository.save(new Furnizor("Furnizor3", "Adresa3", "+40765432189", "email3@example.com"));
+
+                Produs produs1 = produsRepository.save(new Produs("Manusi", "Haine", 50.0, 10.0, 15, furnizor1));
+                Produs produs2 = produsRepository.save(new Produs("Ghete", "Incaltaminte", 100.0, 20.0, 5, furnizor2));
+                Produs produs3 = produsRepository.save(new Produs("Sapca", "Accesorii", 30.0, 5.0, 10, furnizor1));
+                Produs produs4 = produsRepository.save(new Produs("Tricou", "Haine", 25.0, 7.0, 20, furnizor3));
+                Produs produs5 = produsRepository.save(new Produs("Hanorac", "Haine", 75.0, 30.0, 8, furnizor3));
+
+                Stoc stoc1 = stocRepository.save(new Stoc(produs1, 10, 5, new Date()));
+                Stoc stoc2 = stocRepository.save(new Stoc(produs2, 2, 5, new Date())); // Declanșează alertă de stoc
+                Stoc stoc3 = stocRepository.save(new Stoc(produs3, 15, 3, new Date()));
+                Stoc stoc4 = stocRepository.save(new Stoc(produs4, 5, 10, new Date()));
+                Stoc stoc5 = stocRepository.save(new Stoc(produs5, 1, 3, new Date())); // Declanșează alertă de stoc
+
+                alerteStocRepository.save(new AlerteStoc(produs2, true, new Date())); // Alertă activă
+                alerteStocRepository.save(new AlerteStoc(produs5, true, new Date())); // Alertă activă
+
+                ComandaAprovizionare comanda1 = comandaAprovizionareRepository.save(
+                        new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 86400000L), "Pending", furnizor1)
+                );
+                ComandaAprovizionare comanda2 = comandaAprovizionareRepository.save(
+                        new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 172800000L), "Completed", furnizor2)
+                );
+                ComandaAprovizionare comanda3 = comandaAprovizionareRepository.save(
+                        new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 259200000L), "Pending", furnizor3)
+                );
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date dataComanda1 = dateFormat.parse("10/12/2024");
+                Date dataComanda2 = dateFormat.parse("01/12/2024");
+                Date dataComanda3 = dateFormat.parse("15/11/2024");
+
+                comandaProdusRepository.save(new ComandaProdus(comanda1, produs1, 10, 15.0, dataComanda1));
+                comandaProdusRepository.save(new ComandaProdus(comanda2, produs2, 20, 30.0, dataComanda2));
+                comandaProdusRepository.save(new ComandaProdus(comanda3, produs5, 5, 40.0, dataComanda3));
+
+                Vanzare vanzare1 = vanzareRepository.save(new Vanzare(new Date(), 500.0));
+                Vanzare vanzare2 = vanzareRepository.save(new Vanzare(new Date(System.currentTimeMillis() - 86400000L), 750.0));
+
+                vanzareProdusRepository.save(new VanzareProdus(vanzare1, produs1, 5, 50.0));
+                vanzareProdusRepository.save(new VanzareProdus(vanzare1, produs3, 3, 30.0));
+                vanzareProdusRepository.save(new VanzareProdus(vanzare2, produs2, 10, 100.0));
+                vanzareProdusRepository.save(new VanzareProdus(vanzare2, produs4, 8, 25.0));
             }
-
-            System.out.println("Popularea bazei de date...");
-
-            Furnizor furnizor1 = furnizorRepository.save(new Furnizor("Furnizor1", "Adresa1", "+40712345678", "email1@example.com"));
-            Furnizor furnizor2 = furnizorRepository.save(new Furnizor("Furnizor2", "Adresa2", "+40798765432", "email2@example.com"));
-
-            Produs produs1 = produsRepository.save(new Produs("Manusi", "Haine", 50.0, 10.0, 10, furnizor1));
-            Produs produs2 = produsRepository.save(new Produs("Ghete", "Haine", 100.0, 5.0, 5, furnizor2));
-
-            Stoc stoc1 = new Stoc(produs1, 10, 5, new Date());
-            Stoc stoc2 = new Stoc(produs2, 5, 2, new Date());
-            stocRepository.saveAll(List.of(stoc1, stoc2));
-
-            AlerteStoc alerta1 = new AlerteStoc(produs1, true, new Date());
-            alerteStocRepository.save(alerta1);
-
-            ComandaAprovizionare comanda1 = comandaAprovizionareRepository.save(
-                    new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 86400000L), "Pending", furnizor1)
-            );
-            ComandaAprovizionare comanda2 = comandaAprovizionareRepository.save(
-                    new ComandaAprovizionare(new Date(), new Date(System.currentTimeMillis() + 86400000L), "Pending", furnizor2)
-            );
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataComanda = dateFormat.parse("10/11/2024");
-
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataComanda2 = dateFormat2.parse("10/10/2024");
-
-            comandaProdusRepository.save(
-                    new ComandaProdus(comanda1, produs1, 8, 20.0, dataComanda)
-            );
-
-            comandaProdusRepository.save(
-                    new ComandaProdus(comanda2, produs2, 5, 40.0, dataComanda2)
-            );
-            Vanzare vanzare1 = vanzareRepository.save(new Vanzare(new Date(), 200.0));
-            vanzareProdusRepository.save(new VanzareProdus(vanzare1, produs1, 2, 100.0));
         };
     }
 }

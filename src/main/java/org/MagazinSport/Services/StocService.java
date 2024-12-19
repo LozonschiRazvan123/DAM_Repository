@@ -21,11 +21,6 @@ public class StocService {
         this.stocRepository = stocRepository;
     }
 
-    // Create
-    public Stoc saveStoc(Stoc stoc) {
-        return stocRepository.save(stoc);
-    }
-
     public boolean existsById(Long id) {
         return stocRepository.existsById(id);
     }
@@ -104,5 +99,12 @@ public class StocService {
     public Stoc getFirstStocByProdusId(Long produsId) {
         return stocRepository.findByProdus_IdProdus(produsId)
                 .orElseThrow(() -> new NoSuchElementException("Stoc not found for product ID: " + produsId));
+    }
+
+    public Optional<Stoc> findByProdus(Produs produs) {
+        return stocRepository.findByProdus(produs);
+    }
+    public Stoc saveStoc(Stoc stoc) {
+        return stocRepository.save(stoc);
     }
 }

@@ -55,5 +55,9 @@ public class AlerteStoc implements Serializable {
         this.activ = activ;
         this.dataAlerta = dataAlerta;
     }
+    public Boolean isActiv() {
+        return activ;
+    }
+
 
 }

@@ -26,18 +26,25 @@ public class StocController {
 
     @PostMapping
     public ResponseEntity<StocDTO> createStoc(@Valid @RequestBody StocDTO stocDTO) {
+        // Verificăm dacă ID-ul stocului nu este setat
         if (stocDTO.getIdStoc() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // ID-ul trebuie să fie null pentru creație
         }
+
+        // Creăm obiectul Produs folosind ID-ul primit în DTO
         Produs produs = new Produs();
         produs.setIdProdus(stocDTO.getProdusId());
 
+        // Căutăm sau creăm un stoc pentru produsul respectiv
         Stoc stoc = stocService.findOrCreateStoc(produs);
         stoc.setCantitate(stocDTO.getCantitate());
         stoc.setNivelMinim(stocDTO.getNivelMinim());
         stoc.setDataUltimeiModificari(stocDTO.getDataUltimeiModificari());
 
+        // Salvăm stocul și returnăm obiectul salvat
         Stoc savedStoc = stocService.saveStoc(stoc);
+
+        // Returnăm un răspuns cu stocul salvat și statusul 201 (Created)
         return new ResponseEntity<>(convertToDTO(savedStoc), HttpStatus.CREATED);
     }
 

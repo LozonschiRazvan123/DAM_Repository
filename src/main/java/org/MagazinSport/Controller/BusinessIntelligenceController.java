@@ -1,21 +1,22 @@
 package org.MagazinSport.Controller;
 
 import org.MagazinSport.Model.Produs;
-import org.MagazinSport.Model.Stoc;
+import org.MagazinSport.Model.Vanzare;
 import org.MagazinSport.Services.BusinessIntelligenceService;
 import org.MagazinSport.Services.ProdusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
-@RestController
-@RequestMapping("/api/business-intelligence")
+@Controller
+@RequestMapping("/business-intelligence")
 public class  BusinessIntelligenceController {
 
     private final BusinessIntelligenceService businessIntelligenceService;
@@ -28,36 +29,111 @@ public class  BusinessIntelligenceController {
         this.produsService = produsService;
     }
 
+/*
+    @GetMapping
+    public String showBusinessIntelligencePage() {
+        return "business-intelligence";
+    }
+*/
+
+    @GetMapping("")
+    public String showDashboard(Model model) {
+        // Redirecționăm către o pagină implicită sau dashboard
+        model.addAttribute("view", "business-intelligence");
+        return "business-intelligence";
+    }
+
     @GetMapping("/total-sales")
-    public double calculateTotalSales(
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-        return businessIntelligenceService.calculateTotalSalesBetween(startDate, endDate);
+    public String showTotalSales(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                 Model model) {
+
+        if (startDate != null && endDate != null) {
+            double totalSales = businessIntelligenceService.calculateTotalSalesBetween(startDate, endDate);
+            model.addAttribute("totalSales", totalSales);
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("endDate", endDate);
+        }
+
+        model.addAttribute("view", "totalSales");
+        return "business-intelligence";
     }
 
     @GetMapping("/top-selling-products")
-    public List<Produs> getTopSellingProducts(@RequestParam(value = "limit", defaultValue = "5") int limit) {
-        return businessIntelligenceService.getTopSellingProducts(limit);
+    public String getTopSellingProducts(
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            Model model) {
+
+        if (startDate == null || endDate == null) {
+            model.addAttribute("error", "Selectați o perioadă pentru a vizualiza produsele top vânzări.");
+            model.addAttribute("view", "topProducts");
+            return "business-intelligence";
+        }
+
+        List<Object[]> topProducts = businessIntelligenceService.getTopSellingProducts(startDate, endDate);
+        model.addAttribute("view", "topProducts");
+        model.addAttribute("topProducts", topProducts);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
+        return "business-intelligence";
     }
 
-    @GetMapping("/low-stock")
-    public List<Stoc> getStocksBelowMinimum() {
-        return businessIntelligenceService.getStocksBelowMinimum();
-    }
+
+    // Pagina pentru Stocuri Scăzute
+    /*@GetMapping("/low-stock")
+    public String showLowStock(@RequestParam(required = false) Integer threshold,
+                               Model model) {
+        if (threshold != null) {
+            List<Stoc> lowStockItems = businessIntelligenceService.getStocksBelowMinimum(threshold);
+            model.addAttribute("lowStockItems", lowStockItems);
+            model.addAttribute("threshold", threshold);
+        }
+        model.addAttribute("view", "lowStock");
+        return "business-intelligence";
+    }*/
 
     @GetMapping("/total-profit")
-    public double calculateTotalProfit(
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-        return businessIntelligenceService.calculateTotalProfitBetween(startDate, endDate);
+    public String showTotalProfit(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                  @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                  @RequestParam(required = false) String categorie, // Adăugăm parametru pentru categorie
+                                  Model model) {
+        if (startDate != null && endDate != null && categorie != null) {
+            double totalProfit = businessIntelligenceService.calculateTotalProfitBetweenAndCategory(startDate, endDate, categorie);
+            List<String> categories = produsService.getCategories();
+            model.addAttribute("categories", categories);  // Asigură-te că adaugi categoriile în model
+            model.addAttribute("totalProfit", totalProfit);
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("endDate", endDate);
+            model.addAttribute("categorie", categorie);
+        } else {
+            List<String> categories = produsService.getCategories();
+            model.addAttribute("categories", categories);
+        }
+
+        model.addAttribute("view", "totalProfit");
+        return "business-intelligence";
     }
 
+
     @GetMapping("/estimate-stock")
-    public int estimateRequiredStock(
-            @RequestParam("produsId") Long produsId,
-            @RequestParam("perioadaZile") int perioadaZile) {
-        Produs produs = produsService.getProdusById(produsId)
-                .orElseThrow(() -> new IllegalArgumentException("Produs not found"));
-        return businessIntelligenceService.estimateRequiredStock(produs, perioadaZile);
+    public String showEstimateStock(
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @RequestParam(value = "category", required = false) String category,
+            Model model) {
+
+        List<Map<String, Object>> estimatedStock = businessIntelligenceService.getStockEstimation(startDate, category);
+
+        List<String> categories = produsService.getCategories();
+
+        model.addAttribute("estimatedStock", estimatedStock);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("category", category);
+        model.addAttribute("categories", categories);
+        model.addAttribute("view", "estimateStock");
+        return "business-intelligence";
     }
 }

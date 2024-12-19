@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezolvare Alertă Stoc</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+  <h1>Rezolvă Alerta de Stoc</h1>
+
+  <p><strong>Produs:</strong> <span th:text="${alerta.produs.nume}"></span></p>
+  <p><strong>Stoc curent:</strong> <span th:text="${stoc.cantitate}"></span></p>
+  <p><strong>Stoc minim necesar:</strong> <span th:text="${stoc.nivelMinim}"></span></p>
+
+  <!-- Formularul pentru a adăuga cantitatea -->
+  <form th:action="@{/alerte-stoc/rezolva/{id}(id=${alerta.idAlerteStoc})}" method="post">
+    <label for="cantitateAdaugata">Cantitate de reaprovizionare:</label>
+    <input type="number" id="cantitateAdaugata" name="cantitateAdaugata" min="1" required>
+
+    <button type="submit">Rezolvă Alerta</button>
+  </form>
+
+  <p><a href="/alerte-stoc/active">Înapoi la alerte active</a></p>
+</div>
+</body>
+</html>

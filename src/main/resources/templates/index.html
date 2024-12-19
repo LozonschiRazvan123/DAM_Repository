@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Business Intelligence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+        .dashboard-nav {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding-top: 20px;
+            flex-shrink: 0;
+        }
+        .dashboard-nav a {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .dashboard-nav a i {
+            margin-right: 10px;
+        }
+        .dashboard-nav a:hover {
+            background-color: #34495e;
+        }
+        .dashboard-nav .brand-logo {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .dashboard-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #ecf0f1;
+        }
+        .card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+        .col {
+            flex: 1;
+            padding: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #2c3e50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #34495e;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- Navigation Menu -->
+    <div class="dashboard-nav">
+        <div class="brand-logo">
+            <i class="fas fa-running"></i> GoFit
+        </div>
+        <a th:href="@{/produse}" class="dashboard-nav-item">
+            <i class="fas fa-box"></i> Produse
+        </a>
+        <a th:href="@{/stocuri}" class="dashboard-nav-item">
+            <i class="fas fa-warehouse"></i> Stocuri
+        </a>
+        <a th:href="@{/alerte-stoc/active}" class="dashboard-nav-item">
+            <i class="fas fa-exclamation-circle"></i> Alerte Stoc
+        </a>
+        <a th:href="@{/comenzi}" class="dashboard-nav-item">
+            <i class="fas fa-truck"></i> Comenzi
+        </a>
+        <a th:href="@{/vanzari}" class="dashboard-nav-item">
+            <i class="fas fa-chart-line"></i> Vânzări
+        </a>
+        <a th:href="@{/business-intelligence}" class="dashboard-nav-item">
+            <i class="fas fa-brain"></i> Business Intelligence
+        </a>
+        <a th:href="@{/settings}" class="dashboard-nav-item">
+            <i class="fas fa-cogs"></i> Setări
+        </a>
+        <a th:href="@{/logout}" class="dashboard-nav-item">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+        <div class="card">
+            <h1>Bine ai revenit, <span th:text="${userName}">Admin</span></h1>
+            <p>Tipul contului: <strong th:text="${userRole}">Administrator</strong></p>
+            <p>Bine ai venit în panoul tău de administrare. Alege una dintre opțiunile din meniul lateral pentru a începe.</p>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

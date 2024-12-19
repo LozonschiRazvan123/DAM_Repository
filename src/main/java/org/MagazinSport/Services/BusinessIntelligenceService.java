@@ -3,14 +3,14 @@ package org.MagazinSport.Services;
 import org.MagazinSport.Model.Produs;
 import org.MagazinSport.Model.Stoc;
 import org.MagazinSport.Model.Vanzare;
+import org.MagazinSport.Repository.BusinessIntelligenceRepository;
 import org.MagazinSport.Repository.ProdusRepository;
 import org.MagazinSport.Repository.StocRepository;
 import org.MagazinSport.Repository.VanzareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,14 +19,16 @@ public class BusinessIntelligenceService {
     private final ProdusRepository produsRepository;
     private final VanzareRepository vanzareRepository;
     private final StocRepository stocRepository;
+    private final BusinessIntelligenceRepository businessIntelligenceRepository;
 
     @Autowired
     public BusinessIntelligenceService(ProdusRepository produsRepository,
                                        VanzareRepository vanzareRepository,
-                                       StocRepository stocRepository) {
+                                       StocRepository stocRepository, BusinessIntelligenceRepository businessIntelligenceRepository) {
         this.produsRepository = produsRepository;
         this.vanzareRepository = vanzareRepository;
         this.stocRepository = stocRepository;
+        this.businessIntelligenceRepository = businessIntelligenceRepository;
     }
 
     public double calculateTotalSalesBetween(Date startDate, Date endDate) {
@@ -34,17 +36,8 @@ public class BusinessIntelligenceService {
         return vanzari.stream().mapToDouble(Vanzare::getTotal).sum();
     }
 
-    public List<Produs> getTopSellingProducts(int limit) {
-        List<Vanzare> vanzari = vanzareRepository.findAll();
-
-        return vanzari.stream()
-                .flatMap(vanzare -> vanzare.getProduseVandute().stream())
-                .collect(Collectors.groupingBy(vp -> vp.getProdus(), Collectors.summingInt(vp -> vp.getCantitate())))
-                .entrySet().stream()
-                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                .limit(limit)
-                .map(e -> e.getKey())
-                .collect(Collectors.toList());
+    public List<Object[]> getTopSellingProducts(Date startDate, Date endDate) {
+        return businessIntelligenceRepository.findTopSellingProductsBetweenDates(startDate, endDate);
     }
 
     public List<Stoc> getStocksBelowMinimum() {
@@ -53,26 +46,30 @@ public class BusinessIntelligenceService {
                 .collect(Collectors.toList());
     }
 
-    public double calculateTotalProfitBetween(Date startDate, Date endDate) {
+    public double calculateTotalProfitBetweenAndCategory(Date startDate, Date endDate, String categorie) {
         List<Vanzare> vanzari = vanzareRepository.findByDataBetween(startDate, endDate);
 
         return vanzari.stream()
                 .flatMap(vanzare -> vanzare.getProduseVandute().stream())
+                .filter(vp -> vp.getProdus().getCategorie().equals(categorie))  // Filtrare după categorie
                 .mapToDouble(vp -> (vp.getPretUnitate() - vp.getProdus().getPretAchizitie()) * vp.getCantitate())
                 .sum();
     }
 
-    public int estimateRequiredStock(Produs produs, int perioadaZile) {
-        Date startDate = new Date(System.currentTimeMillis() - (long) perioadaZile * 24 * 60 * 60 * 1000);
-        List<Vanzare> vanzariRecente = vanzareRepository.findByDataAfter(startDate);
+    public List<Map<String, Object>> getStockEstimation(Date startDate, String category) {
+        List<Object[]> results = businessIntelligenceRepository.estimateRequiredStock(startDate, category);
 
-        int totalCantitateVanduta = vanzariRecente.stream()
-                .flatMap(vanzare -> vanzare.getProduseVandute().stream())
-                .filter(vp -> vp.getProdus().equals(produs))
-                .mapToInt(vp -> vp.getCantitate())
-                .sum();
+        List<Map<String, Object>> estimates = new ArrayList<>();
+        for (Object[] result : results) {
+            Map<String, Object> estimate = new HashMap<>();
+            estimate.put("id", result[0]);
+            estimate.put("name", result[1]);
+            estimate.put("category", result[2]);
+            estimate.put("stock", result[3]);
+            estimate.put("estimatedNeed", result[4]);
+            estimates.add(estimate);
+        }
 
-        int stocRecomandat = (totalCantitateVanduta / perioadaZile) * 30;
-        return stocRecomandat;
+        return estimates;
     }
 }

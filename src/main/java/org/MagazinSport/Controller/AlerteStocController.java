@@ -2,46 +2,85 @@ package org.MagazinSport.Controller;
 import org.MagazinSport.DTO.AlerteStocDTO;
 import org.MagazinSport.Model.AlerteStoc;
 import org.MagazinSport.Model.Produs;
+import org.MagazinSport.Model.Stoc;
 import org.MagazinSport.Services.AlerteStocService;
 import org.MagazinSport.Services.ProdusService;
+import org.MagazinSport.Services.StocService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/alerte-stoc")
+@Controller
+@RequestMapping("/alerte-stoc")
 public class AlerteStocController {
 
-    private final AlerteStocService alerteStocService;
-    private final ProdusService produsService;
-
     @Autowired
-    public AlerteStocController(AlerteStocService alerteStocService, ProdusService produsService) {
-        this.alerteStocService = alerteStocService;
-        this.produsService = produsService;
+    private AlerteStocService alerteStocService;
+    @Autowired
+    private StocService stocService;
+
+    @GetMapping("/active")
+    public String getAlerteActive(Model model) {
+        List<AlerteStoc> alerte = alerteStocService.getAlerteActive();
+        model.addAttribute("alerte", alerte);
+        model.addAttribute("pageTitle", "Alerte Stoc Active");
+        return "active";
     }
 
-    @PostMapping
-    public ResponseEntity<AlerteStoc> createAlerteStoc(@RequestBody AlerteStocDTO alerteStocDTO) {
-        Produs produs = produsService.getProdusById(alerteStocDTO.getProdusId())
-                .orElseThrow(() -> new IllegalArgumentException("Produs not found"));
+    // Formularul pentru rezolvarea unei alerte
+    @GetMapping("/rezolva/{id}")
+    public String resolveAlertForm(@PathVariable("id") Long id, Model model) {
+        AlerteStoc alerta = alerteStocService.findById(id);
+        if (alerta == null || !alerta.isActiv()) {
+            return "redirect:/alerte-stoc/active";  // Dacă alerta nu există sau nu este activă, redirecționează
+        }
 
-        AlerteStoc alerta = new AlerteStoc(produs, alerteStocDTO.getActiv(), alerteStocDTO.getDataAlerta());
-        return ResponseEntity.ok(alerteStocService.saveAlerteStoc(alerta));
+        // Obținem stocul asociat produsului din alerta
+        Optional<Stoc> optionalStoc = stocService.findByProdus(alerta.getProdus());
+        if (optionalStoc.isEmpty()) {
+            model.addAttribute("message", "Stocul pentru produsul cu ID-ul " + alerta.getProdus().getIdProdus() + " nu a fost găsit.");
+            return "error-page";  // Poți crea o pagină de eroare pentru cazul în care stocul nu este găsit
+        }
+
+        Stoc stoc = optionalStoc.get();  // Obținem stocul din Optional
+        model.addAttribute("alerta", alerta);
+        model.addAttribute("stoc", stoc);  // Detalii stoc produs
+        return "formular-rezolvare-alerta";  // Formularul de actualizare al stocului
     }
 
-    @GetMapping
-    public List<AlerteStocDTO> getAllAlerteStoc() {
-        return alerteStocService.getAllAlerteStoc().stream().map(alerta -> {
-            AlerteStocDTO dto = new AlerteStocDTO();
-            dto.setId(alerta.getIdAlerteStoc());
-            dto.setProdusId(alerta.getProdus().getIdProdus());
-            dto.setActiv(alerta.getActiv());
-            dto.setDataAlerta(alerta.getDataAlerta());
-            return dto;
-        }).collect(Collectors.toList());
+    // Rezolvarea alertei și actualizarea stocului
+    @PostMapping("/rezolva/{id}")
+    public String resolveAlert(@PathVariable("id") Long id, @RequestParam int cantitateAdaugata, Model model) {
+        AlerteStoc alerta = alerteStocService.findById(id);
+        if (alerta == null || !alerta.isActiv()) {
+            model.addAttribute("message", "Alerta nu există sau nu este activă.");
+            return "redirect:/alerte-stoc/active";
+        }
+
+        // Obținem stocul asociat produsului
+        Optional<Stoc> optionalStoc = stocService.findByProdus(alerta.getProdus());
+        if (optionalStoc.isPresent()) {
+            Stoc stoc = optionalStoc.get();
+            stoc.setCantitate(stoc.getCantitate() + cantitateAdaugata);
+            stocService.saveStoc(stoc);  // Salvăm stocul actualizat
+
+            // Verificăm dacă stocul a ajuns la nivelul minim și dezactivăm alerta
+            if (stoc.getCantitate() >= stoc.getNivelMinim()) {
+                alerta.setActiv(false);  // Dezactivăm alerta
+                alerteStocService.saveAlert(alerta);  // Salvăm alerta actualizată
+            }
+
+            model.addAttribute("message", "Alerta a fost rezolvată cu succes!");
+        } else {
+            model.addAttribute("message", "Stocul pentru produsul cu ID-ul " + alerta.getProdus().getIdProdus() + " nu a fost găsit.");
+        }
+
+        return "redirect:/alerte-stoc/active";  // Redirecționăm la pagina cu alertele active
     }
 }

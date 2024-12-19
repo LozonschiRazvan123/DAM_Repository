@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdusService {
@@ -72,5 +73,22 @@ public class ProdusService {
 
     public List<Produs> findProduseByStocLessThan(int stoc) {
         return produsRepository.findByStocLessThan(stoc);
+    }
+
+    public List<String> getCategories() {
+        return produsRepository.findAll()
+                .stream()
+                .map(Produs::getCategorie)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<Produs> findByCategorie(String categorie) {
+        return produsRepository.findByCategorie(categorie);
+    }
+
+    // Metoda pentru a găsi toate produsele
+    public List<Produs> findAll() {
+        return produsRepository.findAll();
     }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:switch="${view}">
+    <!-- Total Vânzări -->
+    <div th:case="'totalSales'">
+        <h2>Total Vânzări</h2>
+        <form th:action="@{/api/business-intelligence/total-sales}" method="get">
+            <div class="mb-3">
+                <label for="startDate">Data de început:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="endDate">Data de sfârșit:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Calculează</button>
+        </form>
+    </div>
+
+    <!-- Alte secțiuni: Produse Top Vânzări, Stocuri Scăzute, etc. -->
+    <div th:case="'topProducts'">
+        <!-- Formular pentru produsele top vânzări -->
+    </div>
+    <!-- Alte cazuri... -->
+
+    <!-- Pagina implicită -->
+    <div th:case="*">
+        <p>Selectați o opțiune din meniul lateral pentru a începe.</p>
+    </div>
+</div>
+</body>
+</html>

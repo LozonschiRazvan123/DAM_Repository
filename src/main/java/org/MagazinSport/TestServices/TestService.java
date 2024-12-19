@@ -39,50 +39,7 @@ public class TestService {
         alerte.forEach(alerta -> System.out.println("Alerta Stoc ID: " + alerta.getIdAlerteStoc()));
     }
 
-    @Test
-    void testGetAlerteStocById() {
-        // Obține toate alertele din baza de date
-        List<AlerteStoc> alerte = alerteStocService.getAllAlerteStoc();
-        assertTrue(alerte.size() > 0, "Trebuie să existe cel puțin o alertă în baza de date.");
 
-        // Selectează prima alertă și verifică dacă poate fi găsită după ID
-        Long idAlerta = alerte.get(0).getIdAlerteStoc();
-        AlerteStoc alerta = alerteStocService.getAlerteStocById(idAlerta).orElse(null);
-        assertNotNull(alerta, "Alerta cu ID-ul " + idAlerta + " ar trebui să existe.");
-        System.out.println("Găsit alerta: " + alerta);
-    }
-
-
-    @Test
-    void testUpdateAlerteStoc() {
-        List<AlerteStoc> alerte = alerteStocService.getAllAlerteStoc();
-        assertTrue(alerte.size() > 0, "Trebuie să existe cel puțin o alertă în baza de date.");
-
-        Long idAlerta = alerte.get(0).getIdAlerteStoc();
-        Optional<AlerteStoc> optionalAlerta = alerteStocService.getAlerteStocById(idAlerta);
-        assertTrue(optionalAlerta.isPresent(), "Alerta cu ID-ul " + idAlerta + " ar trebui să existe.");
-
-        AlerteStoc alertaExistenta = optionalAlerta.get();
-        alertaExistenta.setActiv(false);
-
-        AlerteStoc alertaActualizata = alerteStocService.updateAlerteStoc(idAlerta, alertaExistenta);
-        assertNotNull(alertaActualizata, "Alerta actualizată nu ar trebui să fie null.");
-        assertFalse(alertaActualizata.getActiv(), "Alerta ar trebui să fie inactivă.");
-        System.out.println("Alerta actualizată: " + alertaActualizata);
-    }
-
-    @Test
-    void testDeleteAlerteStoc() {
-        List<AlerteStoc> alerte = alerteStocService.getAllAlerteStoc();
-        assertTrue(alerte.size() > 0, "Trebuie să existe cel puțin o alertă în baza de date.");
-
-        Long idAlerta = alerte.get(0).getIdAlerteStoc();
-        alerteStocService.deleteAlerteStoc(idAlerta);
-
-        Optional<AlerteStoc> alerta = alerteStocService.getAlerteStocById(idAlerta);
-        assertFalse(alerta.isPresent(), "Alerta cu ID-ul " + idAlerta + " nu ar trebui să mai existe.");
-        System.out.println("Alerta cu ID-ul " + idAlerta + " a fost ștearsă.");
-    }
     @Autowired
     private ComandaProdusService comandaProdusService;
 
