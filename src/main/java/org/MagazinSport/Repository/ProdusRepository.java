@@ -15,4 +15,5 @@ import java.util.List;
 
         @Query("SELECT DISTINCT p.categorie FROM Produs p")
         List<String> findAllDistinctCategories();
+
     }

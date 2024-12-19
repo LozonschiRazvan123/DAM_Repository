@@ -35,8 +35,8 @@ public class VanzareProdusController {
         Produs produs = produsService.getProdusById(vanzareProdusDTO.getProdusId())
                 .orElseThrow(() -> new IllegalArgumentException("Produs not found"));
 
-        Vanzare vanzare = vanzareService.getVanzareById(vanzareProdusDTO.getVanzareId())
-                .orElseThrow(() -> new IllegalArgumentException("Vanzare not found"));
+        Vanzare vanzare = vanzareService.getVanzareById(vanzareProdusDTO.getVanzareId());
+
 
         VanzareProdus vanzareProdus = new VanzareProdus(
                 vanzare,
@@ -88,8 +88,7 @@ public class VanzareProdusController {
         Produs produs = produsService.getProdusById(vanzareProdusDTO.getProdusId())
                 .orElseThrow(() -> new IllegalArgumentException("Produs not found"));
 
-        Vanzare vanzare = vanzareService.getVanzareById(vanzareProdusDTO.getVanzareId())
-                .orElseThrow(() -> new IllegalArgumentException("Vanzare not found"));
+        Vanzare vanzare = vanzareService.getVanzareById(vanzareProdusDTO.getVanzareId());
 
         VanzareProdus vanzareProdus = new VanzareProdus(
                 vanzare,

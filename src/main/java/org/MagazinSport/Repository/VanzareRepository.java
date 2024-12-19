@@ -13,4 +13,3 @@ public interface VanzareRepository extends JpaRepository<Vanzare, Long> {
     List<Vanzare> findByDataAfter(Date data);
     List<Vanzare> findByDataBetween(Date startDate, Date endDate);
 }
-

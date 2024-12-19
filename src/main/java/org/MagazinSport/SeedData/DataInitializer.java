@@ -7,8 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Random;
 
 @Configuration
 public class DataInitializer {
@@ -25,15 +26,9 @@ public class DataInitializer {
             VanzareProdusRepository vanzareProdusRepository
     ) {
         return args -> {
-            /*alerteStocRepository.deleteAll();
-            comandaProdusRepository.deleteAll();
-            comandaAprovizionareRepository.deleteAll();
-            vanzareProdusRepository.deleteAll();
-            vanzareRepository.deleteAll();
-            stocRepository.deleteAll();
-            produsRepository.deleteAll();
-            furnizorRepository.deleteAll();*/
             if (furnizorRepository.count() == 0) {
+                Random random = new Random();
+
                 Furnizor furnizor1 = furnizorRepository.save(new Furnizor("Furnizor1", "Adresa1", "+40712345678", "email1@example.com"));
                 Furnizor furnizor2 = furnizorRepository.save(new Furnizor("Furnizor2", "Adresa2", "+40798765432", "email2@example.com"));
                 Furnizor furnizor3 = furnizorRepository.save(new Furnizor("Furnizor3", "Adresa3", "+40765432189", "email3@example.com"));
@@ -79,6 +74,26 @@ public class DataInitializer {
                 vanzareProdusRepository.save(new VanzareProdus(vanzare1, produs3, 3, 30.0));
                 vanzareProdusRepository.save(new VanzareProdus(vanzare2, produs2, 10, 100.0));
                 vanzareProdusRepository.save(new VanzareProdus(vanzare2, produs4, 8, 25.0));
+
+                // Adăugare alte 15 vânzări suplimentare cu sume aleatorii și date între 2020 și 2024
+                for (int i = 3; i <= 17; i++) {
+                    double total = 300.0 + random.nextDouble() * 700.0; // Total între 300 și 1000
+
+                    // Generare dată între 2020 și 2024
+                    Calendar calendar = Calendar.getInstance();
+                    int year = 2020 + random.nextInt(5); // An între 2020 și 2024
+                    int dayOfYear = 1 + random.nextInt(365); // Ziua anului
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+                    Date randomDate = calendar.getTime();
+
+                    Vanzare vanzare = vanzareRepository.save(
+                            new Vanzare(randomDate, total)
+                    );
+
+                    vanzareProdusRepository.save(new VanzareProdus(vanzare, produs1, 2 * i, 50.0));
+                    vanzareProdusRepository.save(new VanzareProdus(vanzare, produs3, 1 * i, 30.0));
+                }
             }
         };
     }

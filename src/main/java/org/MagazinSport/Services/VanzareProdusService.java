@@ -1,21 +1,29 @@
 package org.MagazinSport.Services;
 
+import org.MagazinSport.Model.Vanzare;
 import org.MagazinSport.Model.VanzareProdus;
 import org.MagazinSport.Repository.VanzareProdusRepository;
+import org.MagazinSport.Repository.VanzareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class VanzareProdusService {
 
     private final VanzareProdusRepository vanzareProdusRepository;
+    private final VanzareRepository vanzareRepository;
 
     @Autowired
-    public VanzareProdusService(VanzareProdusRepository vanzareProdusRepository) {
+    public VanzareProdusService(VanzareProdusRepository vanzareProdusRepository, VanzareRepository vanzareRepository) {
         this.vanzareProdusRepository = vanzareProdusRepository;
+        this.vanzareRepository = vanzareRepository;
+    }
+
+    public Vanzare getVanzareById(Long id) {
+        return vanzareRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vanzare not found"));
     }
 
     // Create

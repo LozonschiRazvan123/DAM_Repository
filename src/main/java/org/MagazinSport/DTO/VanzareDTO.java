@@ -26,10 +26,37 @@ public class VanzareDTO {
     public VanzareDTO() {
     }
 
+        private String label; // zi/luna/an
+//        private Double total; // total vânzări
+
+        public VanzareDTO(String label, Double total) {
+            this.label = label;
+            this.total = total;
+        }
+
+        // Getters și Setters
+        public String getLabel() {
+            return label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label;
+        }
+
+        public Double getTotal() {
+            return total;
+        }
+
+        public void setTotal(Double total) {
+            this.total = total;
+        }
+
     public VanzareDTO(Long id, Date data, Double total, List<VanzareProdusDTO> produseVandute) {
         this.id = id;
         this.data = data;
         this.total = total;
         this.produseVandute = produseVandute;
     }
+
 }
+

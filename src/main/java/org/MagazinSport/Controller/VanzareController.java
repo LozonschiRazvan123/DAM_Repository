@@ -7,58 +7,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/vanzari")
 public class VanzareController {
 
-    private final VanzareService vanzareService;
-
     @Autowired
-    public VanzareController(VanzareService vanzareService) {
-        this.vanzareService = vanzareService;
+    private VanzareService vanzareService;
+
+    @GetMapping("/daily")
+    public Map<String, Object> getDailySales() {
+        return vanzareService.getDailySales();
     }
 
-    @PostMapping
-    public ResponseEntity<Vanzare> createVanzare(@RequestBody Vanzare vanzare) {
-        Vanzare savedVanzare = vanzareService.saveVanzare(vanzare);
-        return new ResponseEntity<>(savedVanzare, HttpStatus.CREATED);
+    @GetMapping("/monthly")
+    public Map<String, Object> getMonthlySales() {
+        return vanzareService.getMonthlySales();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Vanzare>> getAllVanzari() {
-        List<Vanzare> vanzari = vanzareService.getAllVanzari();
-        return new ResponseEntity<>(vanzari, HttpStatus.OK);
+    @GetMapping("/yearly")
+    public Map<String, Object> getYearlySales() {
+        return vanzareService.getYearlySales();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Vanzare> getVanzareById(@PathVariable Long id) {
-        Optional<Vanzare> vanzare = vanzareService.getVanzareById(id);
-        return vanzare.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Vanzare> updateVanzare(@PathVariable Long id, @RequestBody Vanzare vanzare) {
-        Vanzare updatedVanzare = vanzareService.updateVanzare(id, vanzare);
-        if (updatedVanzare != null) {
-            return new ResponseEntity<>(updatedVanzare, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVanzare(@PathVariable Long id) {
-        vanzareService.deleteVanzare(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/after/{date}")
-    public ResponseEntity<List<Vanzare>> getVanzariAfterDate(@PathVariable Date date) {
-        List<Vanzare> vanzari = vanzareService.findVanzariAfterDate(date);
-        return new ResponseEntity<>(vanzari, HttpStatus.OK);
+    @PostMapping("/adauga")
+    public ResponseEntity<Void> adaugaVanzare(@RequestBody Vanzare vanzare) {
+        vanzareService.saveVanzare(vanzare);
+        return ResponseEntity.ok().build();
     }
 }
