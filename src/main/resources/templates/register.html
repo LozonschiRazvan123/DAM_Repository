@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 450px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #4CAF50;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+        border-color: #4CAF50;
+        outline: none;
+    }
+
+    button {
+        padding: 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%; /* Asigură că butonul va ocupa toată lățimea */
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .error-message {
+        color: #ff4d4d;
+        text-align: center;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-link a {
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Register</h1>
+
+  <!-- Formular de înregistrare -->
+  <form action="/register" method="post" th:action="@{/register}" th:object="${registerDTO}">
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" th:field="*{username}" required>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" th:field="*{email}" required>
+    </div>
+
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" th:field="*{password}" required>
+    </div>
+
+    <div>
+      <label for="confirmedPassword">Confirm Password:</label>
+      <input type="password" id="confirmedPassword" name="confirmedPassword" th:field="*{confirmedPassword}" required>
+    </div>
+
+    <!-- Secțiune pentru butonul de submit -->
+    <div class="form-actions">
+      <button type="submit">Register</button>
+    </div>
+  </form>
+
+  <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+  <div class="login-link">
+    <p>Already have an account? <a href="/login">Login here</a></p>
+  </div>
+</div>
+</body>
+</html>

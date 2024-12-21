@@ -48,14 +48,13 @@ public class Produs implements Serializable, Comparable<Produs> {
     @NotNull(message = "Supplier is required!")
     private Furnizor furnizor;
 
-    // Constructorul pentru POST și PUT
     public Produs(String nume, String categorie, Double pretVanzare, Double pretAchizitie, Integer stoc, Furnizor furnizor) {
         this.nume = nume;
         this.categorie = categorie;
         this.pretVanzare = pretVanzare;
         this.pretAchizitie = pretAchizitie;
         this.stoc = stoc;
-        this.furnizor = furnizor; // Asigură-te că furnizorul există deja sau este valid
+        this.furnizor = furnizor;
     }
 
     @Override

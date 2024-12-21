@@ -2,14 +2,15 @@ package org.MagazinSport.SeedData;
 
 import org.MagazinSport.Model.*;
 import org.MagazinSport.Repository.*;
+import org.MagazinSport.Role.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 @Configuration
 public class DataInitializer {
@@ -23,9 +24,22 @@ public class DataInitializer {
             ComandaProdusRepository comandaProdusRepository,
             StocRepository stocRepository,
             VanzareRepository vanzareRepository,
-            VanzareProdusRepository vanzareProdusRepository
-    ) {
+            VanzareProdusRepository vanzareProdusRepository,
+            UserRepository userRepository)
+    {
         return args -> {
+
+
+
+                User user = new User("user2025", new BCryptPasswordEncoder().encode("feaa2025"),
+                        new HashSet<>(Set.of(Role.USER)), "user@example.com");
+
+                User admin = new User("admin2025", new BCryptPasswordEncoder().encode("feaa2025"),
+                        new HashSet<>(Set.of(Role.ADMIN)), "admin@example.com");
+
+                userRepository.save(user);
+                userRepository.save(admin);
+
             if (furnizorRepository.count() == 0) {
                 Random random = new Random();
 

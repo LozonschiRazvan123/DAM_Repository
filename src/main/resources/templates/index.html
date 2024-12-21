@@ -83,7 +83,6 @@
 </head>
 <body>
 <div class="dashboard">
-    <!-- Navigation Menu -->
     <div class="dashboard-nav">
         <div class="brand-logo">
             <i class="fas fa-running"></i> GoFit
@@ -107,22 +106,19 @@
             <i class="fas fa-brain"></i> Business Intelligence
         </a>
         <a th:href="@{/settings}" class="dashboard-nav-item">
-            <i class="fas fa-cogs"></i> Setări
+            <i class="fas fa-cogs"></i> Setari
         </a>
         <a th:href="@{/logout}" class="dashboard-nav-item">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
     </div>
 
-    <!-- Dashboard Content -->
     <div class="dashboard-content">
         <div class="card">
             <h1>Bine ai revenit, <span th:text="${userName}">Admin</span></h1>
             <p>Tipul contului: <strong th:text="${userRole}">Administrator</strong></p>
-            <p>Bine ai venit în panoul tău de administrare. Alege una dintre opțiunile din meniul lateral pentru a începe.</p>
-
+            <p>Bine ai venit in panoul tau de administrare. Alege una dintre opțiunile din meniul lateral pentru a incepe.</p>
         </div>
-
     </div>
 </div>
 </body>

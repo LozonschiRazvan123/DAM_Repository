@@ -50,6 +50,10 @@ public class ComandaAprovizionare implements Serializable {
     @OneToMany(mappedBy = "comandaAprovizionare", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ComandaProdus> produseComandate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
+    private User user;
+
     @AssertTrue(message = "Estimated delivery date must be after the order date!")
     public Boolean isValidDeliveryDate() {
         return dataComanda != null && dataLivrareEstimata != null && !dataLivrareEstimata.before(dataComanda);

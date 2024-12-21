@@ -42,6 +42,10 @@ public class Vanzare implements Serializable {
     @JsonIgnore
     private List<VanzareProdus> produseVandute;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
+    private User user;
+
     public Double calculateTotal() {
         if (this.produseVandute != null) {
             return this.produseVandute.stream()

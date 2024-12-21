@@ -36,6 +36,10 @@ public class AlerteStoc implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataAlerta;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
+    private User user;
+
     @AssertTrue(message = "Alert must be active if the alert date is in the future!")
     public Boolean isValid() {
         return (this.dataAlerta != null) &&

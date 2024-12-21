@@ -1,14 +1,28 @@
 package org.MagazinSport.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.GrantedAuthority;
 
 @Controller
 public class MainController {
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model, Authentication authentication) {
+        addUserDetailsToModel(model, authentication);
         return "index";
+    }
+    private void addUserDetailsToModel(Model model, Authentication authentication) {
+        String userName = authentication.getName();
+
+        String userRole = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("N/A");
+
+        model.addAttribute("userName", userName);
+        model.addAttribute("userRole", userRole);
     }
 
     @GetMapping("/produse")
@@ -45,5 +59,10 @@ public class MainController {
     public String furnizori(Model model) {
         model.addAttribute("pageTitle", "Furnizori");
         return "furnizori";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login";
     }
 }
