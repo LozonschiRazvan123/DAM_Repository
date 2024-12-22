@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,28 +87,31 @@
         <div class="brand-logo">
             <i class="fas fa-running"></i> GoFit
         </div>
-        <a th:href="@{/produse}" class="dashboard-nav-item">
+
+        <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" th:href="@{/produse}" class="dashboard-nav-item">
             <i class="fas fa-box"></i> Produse
         </a>
-        <a th:href="@{/stocuri}" class="dashboard-nav-item">
+        <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" th:href="@{/stocuri}" class="dashboard-nav-item">
             <i class="fas fa-warehouse"></i> Stocuri
         </a>
-        <a th:href="@{/alerte-stoc/active}" class="dashboard-nav-item">
-            <i class="fas fa-exclamation-circle"></i> Alerte Stoc
-        </a>
-        <a th:href="@{/comenzi}" class="dashboard-nav-item">
+        <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" th:href="@{/comenzi}" class="dashboard-nav-item">
             <i class="fas fa-truck"></i> Comenzi
         </a>
-        <a th:href="@{/vanzari}" class="dashboard-nav-item">
+
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/alerte-stoc/active}" class="dashboard-nav-item">
+            <i class="fas fa-exclamation-circle"></i> Alerte Stoc
+        </a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/vanzari}" class="dashboard-nav-item">
             <i class="fas fa-chart-line"></i> Vânzări
         </a>
-        <a th:href="@{/business-intelligence}" class="dashboard-nav-item">
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/business-intelligence}" class="dashboard-nav-item">
             <i class="fas fa-brain"></i> Business Intelligence
         </a>
-        <a th:href="@{/settings}" class="dashboard-nav-item">
-            <i class="fas fa-cogs"></i> Setari
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/settings}" class="dashboard-nav-item">
+            <i class="fas fa-cogs"></i> Setări
         </a>
-        <a th:href="@{/logout}" class="dashboard-nav-item">
+
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="dashboard-nav-item">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
     </div>
