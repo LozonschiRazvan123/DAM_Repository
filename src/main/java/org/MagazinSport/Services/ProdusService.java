@@ -2,7 +2,6 @@ package org.MagazinSport.Services;
 
 import org.MagazinSport.Model.Produs;
 import org.MagazinSport.Repository.ProdusRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +13,17 @@ public class ProdusService {
 
     private final ProdusRepository produsRepository;
 
-    @Autowired
     public ProdusService(ProdusRepository produsRepository) {
         this.produsRepository = produsRepository;
     }
 
+    // Metodă unică pentru a obține toate produsele
+    public List<Produs> getAllProduse() {
+        return produsRepository.findAll();
+    }
+
     // Create
     public Produs saveProdus(Produs produs) {
-        // Validare suplimentară înainte de salvare, dacă este necesar
         if (produs.getStoc() < 0) {
             throw new IllegalArgumentException("Stocul nu poate fi negativ!");
         }
@@ -29,10 +31,6 @@ public class ProdusService {
     }
 
     // Read
-    public List<Produs> getAllProduse() {
-        return produsRepository.findAll();
-    }
-
     public Optional<Produs> getProdusById(Long id) {
         return produsRepository.findById(id);
     }
@@ -43,10 +41,8 @@ public class ProdusService {
             throw new IllegalArgumentException("Produsul cu ID-ul " + id + " nu a fost găsit!");
         }
 
-        // Actualizează doar câmpurile care se pot modifica
         produs.setIdProdus(id);
 
-        // Validare suplimentară înainte de salvare
         if (produs.getStoc() < 0) {
             throw new IllegalArgumentException("Stocul nu poate fi negativ!");
         }
@@ -81,14 +77,5 @@ public class ProdusService {
                 .map(Produs::getCategorie)
                 .distinct()
                 .collect(Collectors.toList());
-    }
-
-    public List<Produs> findByCategorie(String categorie) {
-        return produsRepository.findByCategorie(categorie);
-    }
-
-    // Metoda pentru a găsi toate produsele
-    public List<Produs> findAll() {
-        return produsRepository.findAll();
     }
 }
