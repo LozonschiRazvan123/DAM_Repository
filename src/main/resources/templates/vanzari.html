@@ -68,7 +68,7 @@
         color: #555;
     }
 
-    input[type="date"], input[type="number"], select {
+    input[type="date"], input[type="number"], input[type="range"], select {
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -109,7 +109,10 @@
     <input type="date" id="data" name="data" required>
 
     <label for="total">Total Vânzări:</label>
-    <input type="number" id="total" name="total" step="0.01" min="0" required>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <input type="number" id="total" name="total" step="0.01" min="0" required>
+      <input type="range" id="totalSlider" min="0" max="10000" step="1" style="flex: 1;">
+    </div>
 
     <label for="trendType">Tip Tendință:</label>
     <select id="trendType">
@@ -238,32 +241,50 @@
     }
   }
 
+  document.getElementById('total').addEventListener('input', function () {
+    const total = document.getElementById('total');
+    const totalSlider = document.getElementById('totalSlider');
+    totalSlider.value = total.value;
+  });
+
+  document.getElementById('totalSlider').addEventListener('input', function () {
+    const total = document.getElementById('total');
+    const totalSlider = document.getElementById('totalSlider');
+    total.value = totalSlider.value;
+  });
+
   document.getElementById('addSaleForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const data = document.getElementById('data').value;
-    const total = document.getElementById('total').value;
+    const total = parseFloat(document.getElementById('total').value);
+
+    console.log("Date trimise:", { data, total }); // Log pentru debugging
 
     try {
-      const response = await fetch('/api/vanzari/adauga', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data, total }),
-      });
+        const response = await fetch('/api/vanzari/adauga', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data, total }),
+        });
 
-      if (response.ok) {
-        alert('Vânzare adăugată cu succes!');
-        showYearlySales();
-      } else {
-        throw new Error('Eroare la adăugarea vânzării');
-      }
+        console.log("Răspuns backend:", response);
+
+        if (response.ok) {
+            alert('Vânzare adăugată cu succes!');
+            showYearlySales(); // Refresh the yearly sales chart
+        } else {
+            const errorText = await response.text();
+            console.error('Eroare backend:', errorText);
+            alert('Eroare la adăugare: ' + errorText);
+        }
     } catch (error) {
-      console.error('Eroare:', error);
-      alert('A apărut o problemă la adăugarea vânzării');
+        console.error('Eroare:', error);
+        alert('A apărut o problemă la adăugarea vânzării');
     }
-  });
+});
 </script>
 </body>
 </html>

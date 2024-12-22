@@ -1,6 +1,8 @@
 package org.MagazinSport.Controller;
 
+import org.MagazinSport.DTO.VanzareDTO;
 import org.MagazinSport.Model.Vanzare;
+import org.MagazinSport.Repository.VanzareRepository;
 import org.MagazinSport.Services.VanzareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,10 +36,22 @@ public class VanzareController {
     public Map<String, Object> getYearlySales() {
         return vanzareService.getYearlySales();
     }
+    @Autowired
+    private VanzareRepository vanzareRepository;
+
 
     @PostMapping("/adauga")
-    public ResponseEntity<Void> adaugaVanzare(@RequestBody Vanzare vanzare) {
-        vanzareService.saveVanzare(vanzare);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> adaugaVanzare(@RequestBody Vanzare vanzare) {
+        try {
+            System.out.println("Date primite din frontend: " + vanzare);
+            vanzareRepository.save(vanzare);
+            return ResponseEntity.ok("Vânzare adăugată cu succes!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Eroare la salvarea vânzării: " + e.getMessage());
+        }
     }
+
+
+
 }

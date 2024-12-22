@@ -15,13 +15,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/favicon.ico", "/resources/**", "/error").permitAll()
 
                         .requestMatchers("/produse", "/stocuri", "/comenzi").hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers("/vanzari", "/business-intelligence", "/alerte-stoc/active", "/alerte-stoc/rezolva/**", "/settings").hasRole("ADMIN")
-
+                        .requestMatchers("/api/vanzari/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

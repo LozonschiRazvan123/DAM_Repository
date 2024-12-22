@@ -1,5 +1,6 @@
 package org.MagazinSport.Services;
 
+import org.MagazinSport.DTO.VanzareDTO;
 import org.MagazinSport.Model.Vanzare;
 import org.MagazinSport.Repository.VanzareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,12 @@ public class VanzareService {
     private VanzareRepository vanzareRepository;
 
 
-    public void saveVanzare(Vanzare vanzare) {
+
+    // Conversia DTO -> Model
+    public void saveVanzare(VanzareDTO vanzareDTO) {
+        Vanzare vanzare = new Vanzare();
+        vanzare.setData(vanzareDTO.getData());
+        vanzare.setTotal(vanzareDTO.getTotal());
         vanzareRepository.save(vanzare);
     }
 
