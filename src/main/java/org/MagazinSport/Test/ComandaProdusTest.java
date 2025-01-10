@@ -2,6 +2,7 @@ package org.MagazinSport.Test;
 
 import org.MagazinSport.Model.ComandaAprovizionare;
 import org.MagazinSport.Model.ComandaProdus;
+import org.MagazinSport.Model.Furnizor;
 import org.MagazinSport.Model.Produs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class ComandaProdusTest {
     @BeforeEach
     public void setUp() {
         comandaAprovizionare = new ComandaAprovizionare();
-        produs = new Produs(1L, "Laptop", "Electronice", 1500.0, 1200.0, 50);
+        produs = new Produs("Laptop", "Electronice", 1500.0, 1200.0, 50, new Furnizor());
         comandaProdus = new ComandaProdus(1L, 10, 20.5);
         comandaProdus.setComandaAprovizionare(comandaAprovizionare);
         comandaProdus.setProdus(produs);
@@ -57,7 +58,7 @@ public class ComandaProdusTest {
 
     @Test
     public void testSetProdus() {
-        Produs nouProdus = new Produs(2L, "Telefon mobil", "Electronice", 800.0, 650.0, 100);
+        Produs nouProdus = new Produs( "Telefon mobil", "Electronice", 800.0, 650.0, 100, new Furnizor());
         comandaProdus.setProdus(nouProdus);
         assertEquals(nouProdus, comandaProdus.getProdus(),
                 "Produsul ar trebui să fie corect setat");

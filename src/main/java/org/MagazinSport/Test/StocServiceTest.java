@@ -14,7 +14,7 @@ public class StocServiceTest {
     public void setUp() {
         Furnizor furnizor = new Furnizor();
         furnizor.setNume("Furnizor Test");
-        produs = new Produs(1L, "Minge fotbal", "Sport", 50.0, 30.0, 100);
+        //produs = new Produs(1L, "Minge fotbal", "Sport", 50.0, 30.0, 100);
     }
 
     @Test

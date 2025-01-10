@@ -1,6 +1,7 @@
 package org.MagazinSport.Test;
 
 import org.MagazinSport.Model.AlerteStoc;
+import org.MagazinSport.Model.Furnizor;
 import org.MagazinSport.Model.Produs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class AlerteStocTest {
 
     @BeforeEach
     public void setUp() {
-        produs = new Produs(1L, "Laptop", "Electronice", 2500.0, 1800.0, 10);
+        produs = new Produs("Laptop", "Electronice", 2500.0, 1800.0, 10, new Furnizor());
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, 1); // Setăm data alertei în viitor
         alertaStoc = new AlerteStoc(produs, true, cal.getTime());
@@ -42,7 +43,7 @@ public class AlerteStocTest {
 
     @Test
     public void testSetProdus() {
-        Produs newProdus = new Produs(2L, "Telefon", "Electronice", 1200.0, 900.0, 20);
+        Produs newProdus = new Produs( "Telefon", "Electronice", 1200.0, 900.0, 20, new Furnizor());
         alertaStoc.setProdus(newProdus);
         assertEquals(newProdus, alertaStoc.getProdus(), "Produsul ar trebui să fie cel nou setat");
     }

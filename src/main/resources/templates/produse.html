@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionare Produse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background-color: #0b7dda;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .edit-button, .delete-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .edit-button:hover {
+            background-color: #0b7dda;
+        }
+        .delete-button {
+            background-color: #f44336;
+        }
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back-button">Înapoi la Pagina Principală</a>
+
+    <h1>Gestionare Produse</h1>
+
+    <!-- Formular pentru adăugare/actualizare produs -->
+    <form th:action="@{/produs}" th:object="${produs}" method="post">
+
+        <label for="nume">Nume Produs:</label>
+        <input type="text" id="nume"  required>
+
+        <label for="categorie">Categorie:</label>
+        <input type="text" id="categorie" required>
+
+        <label for="pretVanzare">Preț Vânzare:</label>
+        <input type="number" id="pretVanzare" step="0.01" required>
+
+        <label for="pretAchizitie">Preț Achiziție:</label>
+        <input type="number" id="pretAchizitie" step="0.01" required>
+
+        <label for="stoc">Stoc:</label>
+        <input type="number" id="stoc" required>
+
+        <label for="furnizor">Furnizor:</label>
+        <select id="furnizor" required>
+            <option value="" disabled selected>Selectează un furnizor</option>
+            <option th:each="furnizor : ${furnizori}"
+                    th:value="${furnizor}"
+                    th:text="${furnizor.nume}">
+            </option>
+        </select>
+
+        <button type="submit">Adaugă/Actualizează Produs</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Categorie</th>
+            <th>Preț Vânzare</th>
+            <th>Preț Achiziție</th>
+            <th>Stoc</th>
+            <th>Furnizor</th>
+            <th>Acțiuni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="produs : ${produse}">
+            <td th:text="${produs.idProdus}"></td>
+            <td th:text="${produs.nume}"></td>
+            <td th:text="${produs.categorie}"></td>
+            <td th:text="${produs.pretVanzare}"></td>
+            <td th:text="${produs.pretAchizitie}"></td>
+            <td th:text="${produs.stoc}"></td>
+            <td th:text="${produs.furnizor.nume}"></td> <!-- Se afișează doar numele furnizorului -->
+            <td class="action-buttons">
+                <a th:href="@{/produs/edit/{id}(id=${produs.idProdus})}" class="edit-button">Editare</a>
+                <a th:href="@{/produs/delete/{id}(id=${produs.idProdus})}" class="delete-button"
+                   onclick="return confirm('Ești sigur că vrei să ștergi acest produs?');">Șterge</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
