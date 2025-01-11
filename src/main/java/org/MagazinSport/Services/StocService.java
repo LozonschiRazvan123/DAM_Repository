@@ -58,42 +58,13 @@ public class StocService {
         return stocRepository.findByCantitateLessThan(cantitate);
     }
 
-    public Stoc findOrCreateStoc(Produs produs) {
-        return stocRepository.findByProdus(produs)
-                .orElseGet(() -> {
-                    Stoc stoc = new Stoc();
-                    stoc.setProdus(produs);
-                    stoc.setCantitate(0);
-                    stoc.setNivelMinim(10);
-                    stoc.setDataUltimeiModificari(new Date());
-                    return stocRepository.save(stoc);
-                });
+    public Stoc addStoc(Stoc stoc) {
+        return stocRepository.save(stoc);
     }
 
-    public void incrementStock(Produs produs, int cantitate) {
-        Stoc stoc = findOrCreateStoc(produs);
-        stoc.incrementStock(cantitate);
-        stoc.setDataUltimeiModificari(new Date());
-        stocRepository.save(stoc);
-    }
-
-    public void decrementStock(Produs produs, int cantitate) {
-        Stoc stoc = findOrCreateStoc(produs);
-        stoc.decrementStock(cantitate);
-        stoc.setDataUltimeiModificari(new Date());
-        stocRepository.save(stoc);
-    }
-
-    public void updateStock(Produs produs, int newQuantity) {
-        Stoc stoc = findOrCreateStoc(produs);
-        stoc.updateStock(newQuantity);
-        stoc.setDataUltimeiModificari(new Date());
-        stocRepository.save(stoc);
-    }
-
-    public boolean isBelowMinimumLevel(Produs produs) {
-        Stoc stoc = findOrCreateStoc(produs);
-        return stoc.isBelowMinimumLevel();
+    public boolean isBelowMinimumLevel(Stoc stoc) {
+        Stoc stock = addStoc(stoc);
+        return stock.isBelowMinimumLevel();
     }
 
     public Stoc getFirstStocByProdusId(Long produsId) {

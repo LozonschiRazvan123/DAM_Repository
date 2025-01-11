@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editare Stoc</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container {
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #555;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input[type="date"] {
+      padding: 8px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    select {
+      font-size: 14px;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-footer a {
+      color: #2196F3;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Editare Stoc</h1>
+
+  <div class="form-container">
+    <h2>Modifică detaliile stocului</h2>
+    <form th:action="@{/stocuri/update/{id}(id=${stoc.idStoc})}" method="post">
+      <input type="hidden" name="id" th:value="${stoc.idStoc}">
+      <label for="produs">Produs:</label>
+      <select id="produs" name="produs.idProdus" required>
+        <option value="" disabled>Selecteaza un produs</option>
+        <option th:each="produs : ${produse}"
+                th:value="${produs.idProdus}"
+                th:text="${produs.nume}"
+                th:selected="${produs.idProdus == stoc.produs.idProdus}"></option>
+      </select>
+
+      <label for="cantitate">Cantitate:</label>
+      <input type="number" id="cantitate" name="cantitate" th:value="${stoc.cantitate}" required>
+
+      <label for="nivelMinim">Nivel minim:</label>
+      <input type="number" id="nivelMinim" name="nivelMinim" th:value="${stoc.nivelMinim}" required>
+
+      <label for="dataUltimeiModificari">Data ultimei modificari:</label>
+      <input type="date" id="dataUltimeiModificari" name="dataUltimeiModificari" th:value="${stoc.dataUltimeiModificari}" required>
+
+      <button type="submit">Salveaza modificarile</button>
+    </form>
+  </div>
+
+  <div class="form-footer">
+    <a href="/stocuri">Inapoi la lista de stocuri</a>
+  </div>
+</div>
+
+</body>
+</html>

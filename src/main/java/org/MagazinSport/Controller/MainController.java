@@ -31,7 +31,7 @@ public class MainController {
         return "produse";
     }
 
-    @GetMapping("/stocuri")
+    @GetMapping("/stoc")
     public String stocuri(Model model) {
         model.addAttribute("pageTitle", "Stocuri");
         return "stocuri";
