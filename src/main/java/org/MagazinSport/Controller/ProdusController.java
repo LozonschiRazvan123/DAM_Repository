@@ -1,118 +1,70 @@
 package org.MagazinSport.Controller;
 
+import org.MagazinSport.Model.ComandaProdus;
+import org.MagazinSport.Model.Furnizor;
 import org.MagazinSport.Model.Produs;
+import org.MagazinSport.Repository.ComandaProdusRepository;
+import org.MagazinSport.Services.ComandaProdusService;
+import org.MagazinSport.Services.FurnizorService;
 import org.MagazinSport.Services.ProdusService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/produse")
+@Controller
+@RequestMapping("/produse")
 public class ProdusController {
 
     private final ProdusService produsService;
+    private final FurnizorService furnizorService;
 
-    public ProdusController(ProdusService produsService) {
+    public ProdusController(ProdusService produsService, FurnizorService furnizorService) {
         this.produsService = produsService;
+        this.furnizorService = furnizorService;
     }
 
-    @GetMapping("/produse")
-    public String getProduse(Model model) {
-        List<Produs> produse = produsService.getAllProduse();
+    @GetMapping
+    public String showProdusePage(Model model) {
+        List<Produs> produse = produsService.getAllActiveProduse();
+        List<Furnizor> furnizori = furnizorService.getAllFurnizori();
         model.addAttribute("produse", produse);
-        model.addAttribute("produs", new Produs());
+        model.addAttribute("furnizori", furnizori);
         return "produse";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Produs> getProdusById(@PathVariable Long id) {
-        return produsService.getProdusById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/create")
+    public String createProdusForm(Model model) {
+        model.addAttribute("produs", new Produs());
+        model.addAttribute("furnizori", furnizorService.getAllFurnizori());
+        return "create_produs";
     }
 
-    @PostMapping
-    public ResponseEntity<Produs> createProdus(@RequestBody Produs produs) {
-        Produs savedProdus = produsService.saveProdus(produs);
-        return ResponseEntity.ok(savedProdus);
+    @GetMapping("/edit/{id}")
+    public String editProdusForm(@PathVariable Long id, Model model) {
+        Produs produs = produsService.getProdusById(id).orElse(null);
+        if (produs != null) {
+            model.addAttribute("produs", produs);
+            model.addAttribute("furnizori", furnizorService.getAllFurnizori());
+            return "edit_produs";
+        }
+        return "redirect:/produse";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Produs> updateProdus(@PathVariable Long id, @RequestBody Produs produs) {
+    @PostMapping("/save")
+    public String saveProdus(@ModelAttribute Produs produs) {
+        produsService.saveProdus(produs);
+        return "redirect:/produse";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProdus(@PathVariable Long id) {
         try {
-            Produs updatedProdus = produsService.updateProdus(id, produs);
-            return ResponseEntity.ok(updatedProdus);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            produsService.deactivateProdus(id);
+        } catch (Exception e) {
+            return "redirect:/produse?error=delete_failed";
         }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProdus(@PathVariable Long id) {
-        try {
-            produsService.deleteProdus(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/furnizor/{furnizorId}")
-    public ResponseEntity<List<Produs>> getProduseByFurnizor(@PathVariable Long furnizorId) {
-        List<Produs> produse = produsService.findProduseByFurnizorId(furnizorId);
-        return ResponseEntity.ok(produse);
-    }
-
-    @GetMapping("/categorie/{categorie}")
-    public ResponseEntity<List<Produs>> getProduseByCategorie(@PathVariable String categorie) {
-        List<Produs> produse = produsService.findProduseByCategorie(categorie);
-        return ResponseEntity.ok(produse);
-    }
-
-    @GetMapping("/stoc/{threshold}")
-    public ResponseEntity<List<Produs>> getProduseByStocLessThan(@PathVariable int threshold) {
-        List<Produs> produse = produsService.findProduseByStocLessThan(threshold);
-        return ResponseEntity.ok(produse);
-    }
-
-    // Thymeleaf Controller for Product Management
-    @Controller
-    @RequestMapping("/produs") // Unique path for Thymeleaf
-    public static class ThymeleafController {
-
-        private final ProdusService produsService;
-
-        public ThymeleafController(ProdusService produsService) {
-            this.produsService = produsService;
-        }
-
-        @GetMapping
-        public String showProdusePage(Model model) {
-            model.addAttribute("produs", new Produs());
-            model.addAttribute("produse", produsService.getAllProduse());
-            return "produse"; // Thymeleaf template name
-        }
-
-        @PostMapping
-        public String saveOrUpdateProdus(@ModelAttribute Produs produs) {
-            produsService.saveProdus(produs);
-            return "redirect:/produs"; // Updated path
-        }
-
-        @GetMapping("/edit/{id}")
-        public String editProdus(@PathVariable Long id, Model model) {
-            produsService.getProdusById(id).ifPresent(produs -> model.addAttribute("produs", produs));
-            model.addAttribute("produse", produsService.getAllProduse());
-            return "produse";
-        }
-
-        @GetMapping("/delete/{id}")
-        public String deleteProdus(@PathVariable Long id) {
-            produsService.deleteProdus(id);
-            return "redirect:/produs";
-        }
+        return "redirect:/produse";
     }
 }

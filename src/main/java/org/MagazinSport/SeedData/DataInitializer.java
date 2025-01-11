@@ -29,7 +29,7 @@ public class DataInitializer {
     {
         return args -> {
 
-
+            if (furnizorRepository.count() == 0) {
 
                 User user = new User("user2025", new BCryptPasswordEncoder().encode("feaa2025"),
                         new HashSet<>(Set.of(Role.USER)), "user@example.com");
@@ -40,18 +40,17 @@ public class DataInitializer {
                 userRepository.save(user);
                 userRepository.save(admin);
 
-            if (furnizorRepository.count() == 0) {
                 Random random = new Random();
 
                 Furnizor furnizor1 = furnizorRepository.save(new Furnizor("Furnizor1", "Adresa1", "+40712345678", "email1@example.com"));
                 Furnizor furnizor2 = furnizorRepository.save(new Furnizor("Furnizor2", "Adresa2", "+40798765432", "email2@example.com"));
                 Furnizor furnizor3 = furnizorRepository.save(new Furnizor("Furnizor3", "Adresa3", "+40765432189", "email3@example.com"));
 
-                Produs produs1 = produsRepository.save(new Produs("Manusi", "Haine", 50.0, 10.0, 15, furnizor1));
-                Produs produs2 = produsRepository.save(new Produs("Ghete", "Incaltaminte", 100.0, 20.0, 5, furnizor2));
-                Produs produs3 = produsRepository.save(new Produs("Sapca", "Accesorii", 30.0, 5.0, 10, furnizor1));
-                Produs produs4 = produsRepository.save(new Produs("Tricou", "Haine", 25.0, 7.0, 20, furnizor3));
-                Produs produs5 = produsRepository.save(new Produs("Hanorac", "Haine", 75.0, 30.0, 8, furnizor3));
+                Produs produs1 = produsRepository.save(new Produs("Manusi", "Haine", 50.0, 10.0, 15, furnizor1, true));
+                Produs produs2 = produsRepository.save(new Produs("Ghete", "Incaltaminte", 100.0, 20.0, 5, furnizor2, true));
+                Produs produs3 = produsRepository.save(new Produs("Sapca", "Accesorii", 30.0, 5.0, 10, furnizor1, true));
+                Produs produs4 = produsRepository.save(new Produs("Tricou", "Haine", 25.0, 7.0, 20, furnizor3, true));
+                Produs produs5 = produsRepository.save(new Produs("Hanorac", "Haine", 75.0, 30.0, 8, furnizor3, true));
 
                 Stoc stoc1 = stocRepository.save(new Stoc(produs1, 10, 5, new Date()));
                 Stoc stoc2 = stocRepository.save(new Stoc(produs2, 2, 5, new Date())); // Declanșează alertă de stoc

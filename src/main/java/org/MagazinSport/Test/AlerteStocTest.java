@@ -18,7 +18,7 @@ public class AlerteStocTest {
 
     @BeforeEach
     public void setUp() {
-        produs = new Produs("Laptop", "Electronice", 2500.0, 1800.0, 10, new Furnizor());
+        produs = new Produs("Laptop", "Electronice", 2500.0, 1800.0, 10, new Furnizor(), true);
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, 1); // Setăm data alertei în viitor
         alertaStoc = new AlerteStoc(produs, true, cal.getTime());
@@ -43,7 +43,7 @@ public class AlerteStocTest {
 
     @Test
     public void testSetProdus() {
-        Produs newProdus = new Produs( "Telefon", "Electronice", 1200.0, 900.0, 20, new Furnizor());
+        Produs newProdus = new Produs( "Telefon", "Electronice", 1200.0, 900.0, 20, new Furnizor(), true);
         alertaStoc.setProdus(newProdus);
         assertEquals(newProdus, alertaStoc.getProdus(), "Produsul ar trebui să fie cel nou setat");
     }

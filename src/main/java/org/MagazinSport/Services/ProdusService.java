@@ -78,4 +78,19 @@ public class ProdusService {
                 .distinct()
                 .collect(Collectors.toList());
     }
+
+    public void deactivateProdus(Long id) {
+        Optional<Produs> produsOptional = produsRepository.findById(id);
+        if (produsOptional.isPresent()) {
+            Produs produs = produsOptional.get();
+            produs.setActive(false);
+            produsRepository.save(produs);
+        } else {
+            throw new RuntimeException("Produsul nu a fost găsit!");
+        }
+    }
+
+    public List<Produs> getAllActiveProduse() {
+        return produsRepository.findByActiveTrue(); // Căutăm doar produsele active
+    }
 }

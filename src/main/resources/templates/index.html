@@ -99,16 +99,19 @@
         </a>
 
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/alerte-stoc/active}" class="dashboard-nav-item">
-            <i class="fas fa-exclamation-circle"></i> Alerte Stoc
+            <i class="fas fa-exclamation-circle"></i> Alerte stoc
         </a>
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/vanzari}" class="dashboard-nav-item">
-            <i class="fas fa-chart-line"></i> Vânzări
+            <i class="fas fa-chart-line"></i> Vanzari
+        </a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/furnizori}" class="dashboard-nav-item">
+            <i class="fas fa-user"></i> Furnizori
         </a>
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/business-intelligence}" class="dashboard-nav-item">
             <i class="fas fa-brain"></i> Business Intelligence
         </a>
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/settings}" class="dashboard-nav-item">
-            <i class="fas fa-cogs"></i> Setări
+            <i class="fas fa-cogs"></i> Setari
         </a>
 
         <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="dashboard-nav-item">

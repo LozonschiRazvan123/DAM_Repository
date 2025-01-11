@@ -48,13 +48,17 @@ public class Produs implements Serializable, Comparable<Produs> {
     @NotNull(message = "Supplier is required!")
     private Furnizor furnizor;
 
-    public Produs(String nume, String categorie, Double pretVanzare, Double pretAchizitie, Integer stoc, Furnizor furnizor) {
+    @Column(nullable = false)
+    private Boolean active = true;
+
+    public Produs(String nume, String categorie, Double pretVanzare, Double pretAchizitie, Integer stoc, Furnizor furnizor, boolean active) {
         this.nume = nume;
         this.categorie = categorie;
         this.pretVanzare = pretVanzare;
         this.pretAchizitie = pretAchizitie;
         this.stoc = stoc;
         this.furnizor = furnizor;
+        this.active = active;
     }
 
     @Override
@@ -77,5 +81,12 @@ public class Produs implements Serializable, Comparable<Produs> {
 
     public Boolean isStockLow(int threshold) {
         return this.stoc != null && this.stoc < threshold;
+    }
+
+    public Integer getStoc() {
+        return stoc;
+    }
+    public void setStoc(Integer stoc) {
+        this.stoc = stoc;
     }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creează Produs</title>
+</head>
+<body>
+<h1>Creează Produs</h1>
+
+<form th:action="@{/produse/save}" th:object="${produs}" method="post">
+  <label for="nume">Nume Produs:</label>
+  <input type="text" id="nume" th:field="*{nume}" required>
+
+  <label for="categorie">Categorie:</label>
+  <input type="text" id="categorie" th:field="*{categorie}" required>
+
+  <label for="pretVanzare">Preț Vânzare:</label>
+  <input type="number" id="pretVanzare" th:field="*{pretVanzare}" step="0.01" required>
+
+  <label for="pretAchizitie">Preț Achiziție:</label>
+  <input type="number" id="pretAchizitie" th:field="*{pretAchizitie}" step="0.01" required>
+
+  <label for="stoc">Stoc:</label>
+  <input type="number" id="stoc" th:field="*{stoc}" required>
+
+  <label for="furnizor">Furnizor:</label>
+  <select id="furnizor" th:field="*{furnizor.idFurnizor}" required>
+    <option value="" disabled selected>Selectează un furnizor</option>
+    <option th:each="furnizor : ${furnizori}" th:value="${furnizor.idFurnizor}" th:text="${furnizor.nume}"></option>
+  </select>
+
+  <button type="submit">Creează</button>
+</form>
+</body>
+</html>

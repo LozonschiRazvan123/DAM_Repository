@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editare Produs</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .container {
+        max-width: 800px;
+        width: 100%;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+    }
+
+    label {
+        font-size: 14px;
+        color: #555;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Editare Produs</h1>
+
+  <form th:action="@{/produse/save}" th:object="${produs}" method="post">
+    <input type="hidden" th:field="*{idProdus}" />
+
+    <div class="form-group">
+      <label for="nume">Nume Produs:</label>
+      <input type="text" id="nume" th:field="*{nume}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="categorie">Categorie:</label>
+      <input type="text" id="categorie" th:field="*{categorie}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="pretVanzare">Preț Vânzare:</label>
+      <input type="number" id="pretVanzare" th:field="*{pretVanzare}" step="0.01" required />
+    </div>
+
+    <div class="form-group">
+      <label for="pretAchizitie">Preț Achiziție:</label>
+      <input type="number" id="pretAchizitie" th:field="*{pretAchizitie}" step="0.01" required />
+    </div>
+
+    <div class="form-group">
+      <label for="stoc">Stoc:</label>
+      <input type="number" id="stoc" th:field="*{stoc}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="furnizor">Furnizor:</label>
+      <select id="furnizor" th:field="*{furnizor.idFurnizor}" required>
+        <option value="" disabled selected>Selectează un furnizor</option>
+        <option th:each="furnizor : ${furnizori}" th:value="${furnizor.idFurnizor}" th:text="${furnizor.nume}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button type="submit">Actualizează</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

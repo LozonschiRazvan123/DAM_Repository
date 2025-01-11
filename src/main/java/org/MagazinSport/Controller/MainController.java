@@ -25,7 +25,7 @@ public class MainController {
         model.addAttribute("userRole", userRole);
     }
 
-    @GetMapping("/produse")
+    @GetMapping("/produs")
     public String produse(Model model) {
         model.addAttribute("pageTitle", "Produse");
         return "produse";

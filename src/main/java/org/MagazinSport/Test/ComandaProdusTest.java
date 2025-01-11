@@ -19,7 +19,7 @@ public class ComandaProdusTest {
     @BeforeEach
     public void setUp() {
         comandaAprovizionare = new ComandaAprovizionare();
-        produs = new Produs("Laptop", "Electronice", 1500.0, 1200.0, 50, new Furnizor());
+        produs = new Produs("Laptop", "Electronice", 1500.0, 1200.0, 50, new Furnizor(), true);
         comandaProdus = new ComandaProdus(1L, 10, 20.5);
         comandaProdus.setComandaAprovizionare(comandaAprovizionare);
         comandaProdus.setProdus(produs);
@@ -58,7 +58,7 @@ public class ComandaProdusTest {
 
     @Test
     public void testSetProdus() {
-        Produs nouProdus = new Produs( "Telefon mobil", "Electronice", 800.0, 650.0, 100, new Furnizor());
+        Produs nouProdus = new Produs( "Telefon mobil", "Electronice", 800.0, 650.0, 100, new Furnizor(), true);
         comandaProdus.setProdus(nouProdus);
         assertEquals(nouProdus, comandaProdus.getProdus(),
                 "Produsul ar trebui să fie corect setat");
