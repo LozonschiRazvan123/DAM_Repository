@@ -60,13 +60,22 @@
         }
     </style>
 </head>
-<body th:class="${theme == 'dark' ? 'dark-theme' : 'light-theme'}">
+
 <div class="container">
     <h1>Settings</h1>
 
     <!-- Profile Settings -->
     <div class="section">
         <h2>Profile Settings</h2>
+
+        <!-- Mesaje de notificare -->
+        <div th:if="${successMessage}" class="success-message" style="color: green; padding: 10px; border: 1px solid green; border-radius: 5px; background-color: #d4edda;">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="error-message" style="color: red; padding: 10px; border: 1px solid red; border-radius: 5px; background-color: #f8d7da;">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <form th:action="@{/settings/updateProfile}" method="post">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" th:value="${name}" required>
@@ -75,63 +84,52 @@
             <input type="email" id="email" name="email" th:value="${email}" required>
 
             <label for="bio">Bio:</label>
-            <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself..." th:text="${bio}"></textarea>
+            <textarea id="bio" name="bio" rows="4" th:text="${bio}"></textarea>
 
             <button type="submit">Update Profile</button>
         </form>
     </div>
 
+
+
     <!-- Account Settings -->
     <div class="section">
         <h2>Account Settings</h2>
-        <form th:action="@{/settings/changePassword}" method="post">
-            <label for="currentPassword">Current Password:</label>
-            <input type="password" id="currentPassword" name="currentPassword" required>
+        <div class="section">
+            <h2>Change Password</h2>
+            <!-- Afișare mesaje -->
+            <div class="notification-container">
+                <div th:if="${errorMessage}" class="error-message" style="color: red; padding: 10px; border: 1px solid red; border-radius: 5px; background-color: #f8d7da;">
+                    <p th:text="${errorMessage}" style="margin: 0; font-weight: bold;"></p>
+                </div>
+                <div th:if="${successMessage}" class="success-message" style="color: green; padding: 10px; border: 1px solid green; border-radius: 5px; background-color: #d4edda;">
+                    <p th:text="${successMessage}" style="margin: 0; font-weight: bold;"></p>
+                </div>
+            </div>
 
-            <label for="newPassword">New Password:</label>
-            <input type="password" id="newPassword" name="newPassword" required>
+            <!-- Formular schimbare parolă -->
+            <form th:action="@{/settings/changePassword}" method="post">
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
 
-            <label for="confirmPassword">Confirm New Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
 
-            <button type="submit">Change Password</button>
-        </form>
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+                <button type="submit">Change Password</button>
+            </form>
+        </div>
+
     </div>
 
-    <!-- Notification Settings -->
-    <div class="section">
-        <h2>Notification Settings</h2>
-        <form th:action="@{/settings/updateNotifications}" method="post">
-            <label for="notifications">Enable Notifications:</label>
-            <input type="checkbox" id="notifications" name="notifications" th:checked="${notifications}" value="true">
-
-            <label for="emailNotifications">Email Notifications:</label>
-            <input type="checkbox" id="emailNotifications" name="emailNotifications" th:checked="${emailNotifications}" value="true">
-
-            <label for="smsNotifications">SMS Notifications:</label>
-            <input type="checkbox" id="smsNotifications" name="smsNotifications" th:checked="${smsNotifications}" value="true">
-
-            <button type="submit">Update Notifications</button>
-        </form>
-    </div>
-
-    <!-- Theme Settings -->
-    <div class="section">
-        <h2>Theme Settings</h2>
-        <form th:action="@{/settings/updateTheme}" method="post">
-            <label for="theme">Select Theme:</label>
-            <select id="theme" name="theme">
-                <option value="light" th:selected="${theme == 'light'}">Light</option>
-                <option value="dark" th:selected="${theme == 'dark'}">Dark</option>
-            </select>
-            <button type="submit">Save Theme</button>
-        </form>
-    </div>
+   =
 
     <!-- Log Out -->
     <form th:action="@{/logout}" method="post">
         <button type="submit">Log Out</button>
     </form>
 </div>
-</body>
+</div>
 </html>

@@ -59,7 +59,28 @@ public class User implements UserDetails {
         this.roles = roles;
         this.email = email;
     }
+    private String bio;
 
+    // Alte câmpuri...
+
+    public String getEmail() {
+        return email;
+    }
+
+    // Setter pentru email
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Getter pentru bio
+    public String getBio() {
+        return bio;
+    }
+
+    // Setter pentru bio
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
     // Corectare a metodei getAuthorities()
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -99,4 +120,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
