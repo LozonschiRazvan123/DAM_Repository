@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Gestionare Furnizori</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 80%;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        margin-bottom: 30px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    /* Gruparea butoanelor */
+.button-group {
+display: flex;
+gap: 10px;
+justify-content: center;
+align-items: center;
+}
+
+/* Stil pentru butoane */
+.btn {
+display: inline-block;
+padding: 10px 20px;
+font-size: 14px;
+font-weight: bold;
+text-decoration: none;
+text-align: center;
+border-radius: 5px;
+transition: background-color 0.3s ease, transform 0.2s ease;
+cursor: pointer;
+}
+
+/* Buton de editare */
+.btn-edit {
+background-color: #007bff;
+color: white;
+border: 1px solid #007bff;
+}
+
+.btn-edit:hover {
+background-color: #0056b3;
+border-color: #0056b3;
+transform: scale(1.05);
+}
+
+/* Buton de ștergere */
+.btn-delete {
+background-color: #dc3545;
+color: white;
+border: 1px solid #dc3545;
+}
+
+.btn-delete:hover {
+background-color: #c82333;
+border-color: #c82333;
+transform: scale(1.05);
+}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Gestionare Furnizori</h1>
+
+  <form th:action="@{/furnizori/save}" method="post">
+    <label for="nume">Nume Furnizor</label>
+    <input type="text" id="nume" name="nume" placeholder="Introduceți numele furnizorului" required>
+
+    <label for="adresa">Adresă Furnizor</label>
+    <input type="text" id="adresa" name="adresa" placeholder="Introduceți adresa furnizorului" required>
+
+    <label for="telefon">Telefon Furnizor</label>
+    <input type="text" id="telefon" name="telefon" placeholder="+40XXXXXXXXX" pattern="^\+40[0-9]{9}$"
+           title="Numărul de telefon trebuie să fie de forma +40XXXXXXXXX" required>
+
+
+    <label for="email">Email Furnizor</label>
+    <input type="email" id="email" name="email" placeholder="Introduceți emailul furnizorului" required>
+
+    <button type="submit">Salvează Furnizor</button>
+  </form>
+
+
+
+
+  <h2>Lista Furnizori</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nume</th>
+      <th>Adresă</th>
+      <th>Telefon</th>
+      <th>Email</th>
+      <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="furnizor : ${furnizori}">
+      <td th:text="${furnizor.idFurnizor}"></td>
+      <td th:text="${furnizor.nume}"></td>
+      <td th:text="${furnizor.adresa}"></td>
+      <td th:text="${furnizor.telefon}"></td>
+      <td th:text="${furnizor.email}"></td>
+      <td>
+        <div class="button-group">
+          <a th:href="@{/furnizori/edit/{id}(id=${furnizor.idFurnizor})}" class="btn btn-edit">
+            Editare
+          </a>
+          <a th:href="@{/furnizori/delete/{id}(id=${furnizor.idFurnizor})}"
+             class="btn btn-delete"
+             onclick="return confirm('Sigur doriți să ștergeți acest furnizor?');">
+            Ștergere
+          </a>
+        </div>
+      </td>
+
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+</body>
+</html>

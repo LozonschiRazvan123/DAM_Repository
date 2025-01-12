@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Editare Furnizor</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 49%;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        margin-bottom: 30px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-cancel {
+        padding: 10px 20px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn-cancel:hover {
+        background-color: #c82333;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Editare Furnizor</h1>
+  <form th:action="@{/furnizori/update/{id}(id=${furnizor.idFurnizor})}" method="post">
+    <label for="nume">Nume Furnizor</label>
+    <input type="text" id="nume" name="nume" th:value="${furnizor.nume}" required>
+
+    <label for="adresa">Adresă Furnizor</label>
+    <input type="text" id="adresa" name="adresa" th:value="${furnizor.adresa}" required>
+
+    <label for="telefon">Telefon Furnizor</label>
+    <input type="text" id="telefon" name="telefon" th:value="${furnizor.telefon}" required>
+
+    <label for="email">Email Furnizor</label>
+    <input type="email" id="email" name="email" th:value="${furnizor.email}" required>
+
+    <div class="button-group">
+      <button type="submit">Salvează Modificările</button>
+      <a th:href="@{/furnizori}" class="btn-cancel">Anulează</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>
