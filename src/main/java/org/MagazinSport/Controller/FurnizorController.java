@@ -56,6 +56,7 @@ public class FurnizorController {
             model.addAttribute("furnizor", furnizor.get());
             return "edit_furnizor"; // Numele paginii Thymeleaf
         }
+
         return "redirect:/furnizori?error=not_found"; // Redirecționează dacă furnizorul nu este găsit
     }
     @PostMapping("/update/{id}")
