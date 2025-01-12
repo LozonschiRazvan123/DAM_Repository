@@ -9,6 +9,7 @@ import org.MagazinSport.Services.ComandaProdusService;
 import org.MagazinSport.Services.ProdusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -146,6 +147,42 @@ public class ComandaProdusController {
         comandaProdusService.deleteComandaProdus(comanda.getId());
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/new")
+    public String showCreateComandaPage(Model model) {
+        List<Produs> produse = produsService.getAllProduse();
+        System.out.println("Produse disponibile: " + produse); // Log pentru depanare
+
+        if (produse.isEmpty()) {
+            System.out.println("Nu există produse disponibile!");
+        }
+
+        model.addAttribute("produse", produse);
+        return "comenzi"; // Numele fișierului Thymeleaf
+    }
+
+
+
+
+    @PostMapping("/save")
+    public String saveComanda(ComandaProdusDTO comandaProdusDTO) {
+        Produs produs = produsService.getProdusById(comandaProdusDTO.getProdusId())
+                .orElseThrow(() -> new IllegalArgumentException("Produs not found"));
+
+        ComandaProdus comandaProdus = new ComandaProdus(
+                null, // Fără comandaAprovizionare pentru simplitate
+                produs,
+                comandaProdusDTO.getCantitate(),
+                comandaProdusDTO.getPretUnitate(),
+                comandaProdusDTO.getDataComanda()
+        );
+
+        comandaProdusService.saveComandaProdus(comandaProdus);
+        return "redirect:/api/comanda-produs/new";
+    }
+
+
+
+
 //    {
 //        "comandaAprovizionareId": 1,
 //            "produsId": 2,

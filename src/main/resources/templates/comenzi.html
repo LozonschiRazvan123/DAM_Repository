@@ -1,37 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionare Comenzi</title>
+    <title>Gestionare Stocuri</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
         h1 {
             text-align: center;
             color: #333;
+            margin-bottom: 20px;
         }
+
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1000px;
+            width: 100%;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px;
         }
-        form {
-            margin-bottom: 20px;
+
+        .form-container {
+            margin-bottom: 30px;
         }
+
         label {
             font-size: 14px;
             color: #555;
             display: block;
             margin-bottom: 8px;
         }
+
         input, select, button {
             width: 100%;
             padding: 10px;
@@ -39,203 +50,133 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
         button {
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
+
         th, td {
             text-align: left;
-            padding: 8px;
+            padding: 12px;
             border-bottom: 1px solid #ddd;
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #4CAF50;
+            color: white;
         }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        td a {
+            color: #2196F3;
+            font-weight: bold;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-button, .delete-button {
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
         .edit-button {
             background-color: #2196F3;
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: pointer;
         }
+
         .edit-button:hover {
-            background-color: #0b7dda;
+            background-color: #1e88e5;
         }
+
+        .delete-button {
+            background-color: #f44336;
+        }
+
+        .delete-button:hover {
+            background-color: #e53935;
+        }
+
     </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>Gestionare Comenzi</h1>
+    <h1>Gestionare Stocuri</h1>
 
-    <form id="orderForm">
-        <label for="produs">Produs:</label>
-        <select id="produs" name="produsId" required>
-            <option value="" disabled selected>Alege un produs</option>
-        </select>
+    <div class="form-container">
+        <h2>Adaugă Stoc Nou</h2>
+        <form action="/stocuri/save" method="post">
+            <label for="produs">Produs:</label>
+            <select id="produs" name="produs.idProdus" required>
+                <option value="" disabled selected>Selecteaza un produs</option>
+                <option th:each="produs : ${produse}" th:value="${produs.idProdus}" th:text="${produs.nume}"></option>
+            </select>
 
-        <label for="cantitate">Cantitate:</label>
-        <input type="number" id="cantitate" name="cantitate" min="1" required>
+            <label for="cantitate">Cantitate:</label>
+            <input type="number" id="cantitate" name="cantitate" required>
 
-        <label for="pret">Preț Unitar:</label>
-        <input type="number" id="pret" name="pretUnitate" step="0.01" min="0" required>
+            <label for="nivelMinim">Nivel minim:</label>
+            <input type="number" id="nivelMinim" name="nivelMinim" required>
 
-        <label for="dataComanda">Data Comandă:</label>
-        <input type="date" id="dataComanda" name="dataComanda" required>
+            <label for="dataUltimeiModificari">Data ultimei modificari:</label>
+            <input type="date" id="dataUltimeiModificari" name="dataUltimeiModificari" required>
 
-        <button type="submit">Adaugă/Actualizează Comandă</button>
-    </form>
+            <button type="submit">Adaugă Stoc</button>
+        </form>
+    </div>
 
-    <h2>Lista Comenzi</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Produs</th>
-            <th>Cantitate</th>
-            <th>Preț Unitar</th>
-            <th>Data Comandă</th>
-            <th>Acțiuni</th>
-        </tr>
-        </thead>
-        <tbody id="orderTableBody">
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produs</th>
+                <th>Cantitate</th>
+                <th>Nivel minim</th>
+                <th>Data ultimei modificari</th>
+                <th>Actiuni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="stoc : ${stocuri}">
+                <td th:text="${stoc.idStoc}"></td>
+                <td th:text="${stoc.produs.nume}"></td>
+                <td th:text="${stoc.cantitate}"></td>
+                <td th:text="${stoc.nivelMinim}"></td>
+                <td th:text="${stoc.dataUltimeiModificari}"></td>
+                <td class="actions">
+                    <a th:href="@{/stocuri/edit/{id}(id=${stoc.idStoc})}" class="edit-button">Editare</a>
+                    <a th:href="@{/stocuri/delete/{id}(id=${stoc.idStoc})}" class="delete-button">Sterge</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<script>
-    const productSelect = document.getElementById('produs');
-    const orderTableBody = document.getElementById('orderTableBody');
-    const orderForm = document.getElementById('orderForm');
-
-    let editingOrderId = null;
-
-    // Load products and orders when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        loadProducts();
-        loadOrders();
-
-        orderForm.addEventListener('submit', handleFormSubmit);
-    });
-
-    // Load products for the dropdown
-    async function loadProducts() {
-        try {
-            const response = await fetch('/api/produse');
-            if (!response.ok) throw new Error('Eroare la încărcarea produselor');
-
-            const products = await response.json();
-            productSelect.innerHTML = '<option value="" disabled selected>Alege un produs</option>';
-
-            products.forEach(product => {
-                const option = document.createElement('option');
-                option.value = product.idProdus;
-                option.textContent = product.nume;
-                productSelect.appendChild(option);
-            });
-        } catch (error) {
-            console.error('Eroare la încărcarea produselor:', error);
-        }
-    }
-
-    // Load orders and render them in the table
-    async function loadOrders() {
-        try {
-            const response = await fetch('/api/comanda-produs');
-            if (!response.ok) throw new Error('Eroare la încărcarea comenzilor');
-
-            const orders = await response.json();
-            orderTableBody.innerHTML = ''; // Clear previous content
-
-            orders.forEach(order => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${order.id}</td>
-                    <td>${order.produsNume}</td>
-                    <td>${order.cantitate}</td>
-                    <td>${order.pretUnitate}</td>
-                    <td>${order.dataComanda}</td>
-                    <td>
-                        <button class="edit-button" data-id="${order.id}">Editează</button>
-                    </td>
-                `;
-                orderTableBody.appendChild(row);
-            });
-
-            // Attach event listeners to the edit buttons
-            const editButtons = document.querySelectorAll('.edit-button');
-            editButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    editOrder(button.dataset.id);
-                });
-            });
-        } catch (error) {
-            console.error('Eroare la încărcarea comenzilor:', error);
-        }
-    }
-
-    // Handle form submission for creating or updating an order
-    async function handleFormSubmit(event) {
-        event.preventDefault();
-
-        const formData = {
-            produsId: productSelect.value,
-            cantitate: document.getElementById('cantitate').value,
-            pretUnitate: document.getElementById('pret').value,
-            dataComanda: document.getElementById('dataComanda').value,
-        };
-
-        const method = editingOrderId ? 'PUT' : 'POST';
-        const url = editingOrderId ? `/api/comanda-produs/${editingOrderId}` : '/api/comanda-produs';
-
-        try {
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) throw new Error('Eroare la salvarea comenzii');
-
-            alert('Comanda a fost salvată cu succes!');
-            editingOrderId = null;
-            orderForm.reset(); // Clear the form
-            loadOrders(); // Refresh the order list
-        } catch (error) {
-            console.error('Eroare la salvarea comenzii:', error);
-        }
-    }
-
-    // Load order data into the form for editing
-    async function editOrder(orderId) {
-        try {
-            const response = await fetch(`/api/comanda-produs/${orderId}`);
-            if (!response.ok) throw new Error('Eroare la încărcarea comenzii');
-
-            const order = await response.json();
-            productSelect.value = order.produsId;
-            document.getElementById('cantitate').value = order.cantitate;
-            document.getElementById('pret').value = order.pretUnitate;
-            document.getElementById('dataComanda').value = order.dataComanda;
-
-            editingOrderId = orderId; // Set the editing ID
-        } catch (error) {
-            console.error('Eroare la editarea comenzii:', error);
-        }
-    }
-</script>
 
 </body>
 </html>

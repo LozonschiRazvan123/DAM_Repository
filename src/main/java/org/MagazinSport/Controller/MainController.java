@@ -55,7 +55,7 @@ public class MainController {
         return "vanzari";
     }
 
-    @GetMapping("/furnizori")
+    @GetMapping("/furnizor")
     public String furnizori(Model model) {
         model.addAttribute("pageTitle", "Furnizori");
         return "furnizori";

@@ -1,5 +1,6 @@
 package org.MagazinSport.Controller;
 
+import org.MagazinSport.DTO.ComandaProdusDTO;
 import org.MagazinSport.Model.ComandaProdus;
 import org.MagazinSport.Model.Furnizor;
 import org.MagazinSport.Model.Produs;
@@ -56,6 +57,13 @@ public class ProdusController {
     public String saveProdus(@ModelAttribute Produs produs) {
         produsService.saveProdus(produs);
         return "redirect:/produse";
+    }
+    @GetMapping("/new")
+    public String showCreateComandaPage(Model model) {
+        List<Produs> produse = produsService.getAllProduse();
+        model.addAttribute("produse", produse);
+        model.addAttribute("comandaProdus", new ComandaProdusDTO());
+        return "comenzi";
     }
 
     @GetMapping("/delete/{id}")

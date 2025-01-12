@@ -23,7 +23,7 @@ public class FurnizorService {
         return furnizorRepository.save(furnizor);
     }
 
-    // Read
+
     public List<Furnizor> getAllFurnizori() {
         return furnizorRepository.findAll();
     }
