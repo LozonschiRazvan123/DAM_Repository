@@ -1,15 +1,28 @@
 package org.MagazinSport.DTO;
 
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NonNull;
+import org.MagazinSport.Model.Furnizor;
+import org.MagazinSport.Model.Produs;
 
 import java.util.Date;
 
 @Data
 public class ComandaProdusDTO {
+    public Long getFurnizorId() {
+        return furnizorId;
+    }
+
+    public void setFurnizorId(Long furnizorId) {
+        this.furnizorId = furnizorId;
+    }
+
+    private Long furnizorId;
     @NotNull(message = "ComandaAprovizionare ID is required!")
     private Long comandaAprovizionareId;
 
@@ -24,6 +37,10 @@ public class ComandaProdusDTO {
 
     @NotNull(message = "Order date is required!")
     private Date dataComanda;
+
+    private Produs produs;
+
+    private Furnizor furnizor;
 
     public @NotNull(message = "ComandaAprovizionare ID is required!") Long getComandaAprovizionareId() {
         return comandaAprovizionareId;
@@ -66,5 +83,21 @@ public class ComandaProdusDTO {
     }
 
     public void setId(@NonNull @Min(1) @NotNull(message = "Product order ID is required!") Long id) {
+    }
+
+    public Produs getProdus() {
+        return produs;
+    }
+
+    public void setProdus(Produs produs) {
+        this.produs = produs;
+    }
+
+    public Furnizor getFurnizor() {
+        return furnizor;
+    }
+
+    public void setFurnizor(Furnizor furnizor) {
+        this.furnizor = furnizor;
     }
 }

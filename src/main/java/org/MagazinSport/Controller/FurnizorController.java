@@ -1,8 +1,11 @@
 package org.MagazinSport.Controller;
 
 import jakarta.validation.Valid;
+import org.MagazinSport.DTO.ProdusDTO;
 import org.MagazinSport.Model.Furnizor;
+import org.MagazinSport.Model.Produs;
 import org.MagazinSport.Services.FurnizorService;
+import org.MagazinSport.Services.ProdusService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +21,11 @@ import java.util.Optional;
 public class FurnizorController {
 
     private final FurnizorService furnizorService;
+    private final ProdusService produsService;
 
-    public FurnizorController(FurnizorService furnizorService) {
+    public FurnizorController(FurnizorService furnizorService, ProdusService produsService) {
         this.furnizorService = furnizorService;
+        this.produsService = produsService;
     }
 
     @GetMapping
@@ -44,11 +49,11 @@ public class FurnizorController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+/*    @PostMapping
     public ResponseEntity<Furnizor> createFurnizor(@Validated @RequestBody Furnizor furnizor) {
         Furnizor savedFurnizor = furnizorService.saveFurnizor(furnizor);
         return ResponseEntity.ok(savedFurnizor);
-    }
+    }*/
     @GetMapping("/edit/{id}")
     public String editFurnizor(@PathVariable Long id, Model model) {
         Optional<Furnizor> furnizor = furnizorService.getFurnizorById(id);
@@ -105,4 +110,32 @@ public class FurnizorController {
         return "redirect:/furnizori?error=delete_failed"; // Redirecționează cu un mesaj de eroare
     }
 
+    @GetMapping("/comanda/{id}")
+    public String viewProductsForOrder(@PathVariable Long id, Model model) {
+        Optional<Furnizor> furnizorOptional = furnizorService.getFurnizorById(id);
+        if (furnizorOptional.isPresent()) {
+            Furnizor furnizor = furnizorOptional.get();
+            model.addAttribute("furnizor", furnizor);
+            model.addAttribute("produse", furnizor.getProduse());
+            return "comanda_produse"; // Numele paginii unde vor fi listate produsele
+        }
+        return "redirect:/furnizori?error=not_found";
+    }
+
+    /*@PostMapping
+    public String placeOrder(@ModelAttribute("produse") List<ProdusDTO> produseComandate, Model model) {
+        for (ProdusDTO produsDTO : produseComandate) {
+            if (produsDTO.getStoc() > 0) {
+                Optional<Produs> produsOptional = produsService.getProdusById(produsDTO.getIdProdus());
+                if (produsOptional.isPresent()) {
+                    Produs produs = produsOptional.get();
+                    if (produs.getStoc() >= produsDTO.getStoc()) {
+                        produs.setStoc(produs.getStoc() - produsDTO.getStoc());
+                        produsService.saveProdus(produs);
+                    }
+                }
+            }
+        }
+        return "redirect:/comenzi";
+    }*/
 }
