@@ -19,8 +19,8 @@ public class ComandaProdusService {
     }
 
     // Create
-    public ComandaProdus saveComandaProdus(ComandaProdus comandaProdus) {
-        return comandaProdusRepository.save(comandaProdus);
+    public void saveComandaProdus(List<ComandaProdus> comandaProduse) {
+        comandaProdusRepository.saveAll(comandaProduse); // Folosim saveAll pentru a salva lista de produse
     }
 
     // Read - Get All

@@ -25,8 +25,7 @@ public class ComandaProdus implements Serializable, Comparable<ComandaProdus> {
     @NotNull(message = "Product order ID is required!")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @NotNull(message = "The associated supply order is required!")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private ComandaAprovizionare comandaAprovizionare;
 
@@ -57,8 +56,7 @@ public class ComandaProdus implements Serializable, Comparable<ComandaProdus> {
                 ", produs=" + produs + ", cantitate=" + cantitate + ", pretUnitate=" + pretUnitate + ", dataComanda=" + dataComanda + "]";
     }
 
-    public ComandaProdus(ComandaAprovizionare comandaAprovizionare, Produs produs, @NonNull Integer cantitate, @NonNull Double pretUnitate, @NonNull Date dataComanda) {
-        this.comandaAprovizionare = comandaAprovizionare;
+    public ComandaProdus(Produs produs, @NonNull Integer cantitate, @NonNull Double pretUnitate, @NonNull Date dataComanda) {
         this.produs = produs;
         this.cantitate = cantitate;
         this.pretUnitate = pretUnitate;

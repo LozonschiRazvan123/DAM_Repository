@@ -43,7 +43,7 @@ public class MainController {
         return "alerte-stoc";
     }
 
-    @GetMapping("/comenzi")
+    @GetMapping("/comanda")
     public String comenzi(Model model) {
         model.addAttribute("pageTitle", "Comenzi");
         return "comenzi";

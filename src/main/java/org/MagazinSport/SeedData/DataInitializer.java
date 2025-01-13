@@ -76,9 +76,9 @@ public class DataInitializer {
                 Date dataComanda2 = dateFormat.parse("01/12/2024");
                 Date dataComanda3 = dateFormat.parse("15/11/2024");
 
-                comandaProdusRepository.save(new ComandaProdus(comanda1, produs1, 10, 15.0, dataComanda1));
-                comandaProdusRepository.save(new ComandaProdus(comanda2, produs2, 20, 30.0, dataComanda2));
-                comandaProdusRepository.save(new ComandaProdus(comanda3, produs5, 5, 40.0, dataComanda3));
+                comandaProdusRepository.save(new ComandaProdus(produs1, 10, 15.0, dataComanda1));
+                comandaProdusRepository.save(new ComandaProdus(produs2, 20, 30.0, dataComanda2));
+                comandaProdusRepository.save(new ComandaProdus(produs5, 5, 40.0, dataComanda3));
 
                 Vanzare vanzare1 = vanzareRepository.save(new Vanzare(new Date(), 500.0));
                 Vanzare vanzare2 = vanzareRepository.save(new Vanzare(new Date(System.currentTimeMillis() - 86400000L), 750.0));

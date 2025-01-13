@@ -4,6 +4,7 @@ import org.MagazinSport.Model.ComandaAprovizionare;
 import org.MagazinSport.Repository.ComandaAprovizionareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ComandaAprovizionareService {
         this.comandaAprovizionareRepository = comandaAprovizionareRepository;
     }
 
-    // Create
+    @Transactional
     public ComandaAprovizionare saveComandaAprovizionare(ComandaAprovizionare comandaAprovizionare) {
         return comandaAprovizionareRepository.save(comandaAprovizionare);
     }
@@ -33,7 +34,7 @@ public class ComandaAprovizionareService {
         return comandaAprovizionareRepository.findById(id);
     }
 
-    // Update
+    @Transactional
     public ComandaAprovizionare updateComandaAprovizionare(Long id, ComandaAprovizionare comandaAprovizionare) {
         if (comandaAprovizionareRepository.existsById(id)) {
             comandaAprovizionare.setIdComandaAprovizionare(id);
@@ -42,12 +43,10 @@ public class ComandaAprovizionareService {
         return null;
     }
 
-    // Delete
     public void deleteComandaAprovizionare(Long id) {
         comandaAprovizionareRepository.deleteById(id);
     }
 
-    // Metode suplimentare
     public List<ComandaAprovizionare> findComenziByStatus(String status) {
         return comandaAprovizionareRepository.findByStatus(status);
     }
@@ -58,5 +57,10 @@ public class ComandaAprovizionareService {
 
     public List<ComandaAprovizionare> findComenziByFurnizorId(Long furnizorId) {
         return comandaAprovizionareRepository.findByFurnizor_IdFurnizor(furnizorId);
+    }
+
+    public ComandaAprovizionare findById(Long id) {
+        return comandaAprovizionareRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Comanda cu ID-ul " + id + " nu a fost găsită!"));
     }
 }

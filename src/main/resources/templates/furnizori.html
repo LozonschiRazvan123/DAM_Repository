@@ -78,28 +78,25 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-    /* Gruparea butoanelor */
-.button-group {
-display: flex;
-gap: 10px;
-justify-content: center;
-align-items: center;
-}
+    .button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
 
-/* Stil pentru butoane */
-.btn {
-display: inline-block;
-padding: 10px 20px;
-font-size: 14px;
-font-weight: bold;
-text-decoration: none;
-text-align: center;
-border-radius: 5px;
-transition: background-color 0.3s ease, transform 0.2s ease;
-cursor: pointer;
-}
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
 
-/* Buton de editare */
 .btn-edit {
 background-color: #007bff;
 color: white;
@@ -112,7 +109,6 @@ border-color: #0056b3;
 transform: scale(1.05);
 }
 
-/* Buton de ștergere */
 .btn-delete {
 background-color: #dc3545;
 color: white;
@@ -129,39 +125,39 @@ transform: scale(1.05);
 </head>
 <body>
 <div class="container">
-  <h1>Gestionare Furnizori</h1>
+  <h1>Gestionare furnizori</h1>
 
   <form th:action="@{/furnizori/save}" method="post">
-    <label for="nume">Nume Furnizor</label>
-    <input type="text" id="nume" name="nume" placeholder="Introduceți numele furnizorului" required>
+    <label for="nume">Nume furnizor</label>
+    <input type="text" id="nume" name="nume" placeholder="Introduceti numele furnizorului" required>
 
     <label for="adresa">Adresă Furnizor</label>
-    <input type="text" id="adresa" name="adresa" placeholder="Introduceți adresa furnizorului" required>
+    <input type="text" id="adresa" name="adresa" placeholder="Introduceti adresa furnizorului" required>
 
     <label for="telefon">Telefon Furnizor</label>
     <input type="text" id="telefon" name="telefon" placeholder="+40XXXXXXXXX" pattern="^\+40[0-9]{9}$"
-           title="Numărul de telefon trebuie să fie de forma +40XXXXXXXXX" required>
+           title="Numarul de telefon trebuie sa fie de forma +40XXXXXXXXX" required>
 
 
     <label for="email">Email Furnizor</label>
-    <input type="email" id="email" name="email" placeholder="Introduceți emailul furnizorului" required>
+    <input type="email" id="email" name="email" placeholder="Introduceti emailul furnizorului" required>
 
-    <button type="submit">Salvează Furnizor</button>
+    <button type="submit">Salveaza furnizor</button>
   </form>
 
 
 
 
-  <h2>Lista Furnizori</h2>
+  <h2>Lista furnizori</h2>
   <table>
     <thead>
     <tr>
       <th>ID</th>
       <th>Nume</th>
-      <th>Adresă</th>
+      <th>Adresa</th>
       <th>Telefon</th>
       <th>Email</th>
-      <th>Acțiuni</th>
+      <th>Actiuni</th>
     </tr>
     </thead>
     <tbody>
@@ -179,7 +175,10 @@ transform: scale(1.05);
           <a th:href="@{/furnizori/delete/{id}(id=${furnizor.idFurnizor})}"
              class="btn btn-delete"
              onclick="return confirm('Sigur doriți să ștergeți acest furnizor?');">
-            Ștergere
+            Stergere
+          </a>
+          <a th:href="@{/furnizori/comanda/{id}(id=${furnizor.idFurnizor})}" class="btn btn-order">
+            Comanda produse
           </a>
         </div>
       </td>
