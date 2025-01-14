@@ -9,7 +9,21 @@
             background-color: #f4f4f9;
             color: #333;
         }
+         .back-button {
+        text-decoration: none;
+        padding: 10px 20px;
+        background-color: #6c757d; /* Gri deschis */
+        color: white;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
 
+    .back-button:hover {
+        background-color: #5a6268; /* Gri mai închis la hover */
+    }
         /* Dark Theme */
         .dark-theme {
             background-color: #333;
@@ -129,6 +143,11 @@
     <form th:action="@{/logout}" method="post">
         <button type="submit">Log Out</button>
     </form>
+    <div style="margin-top: 20px;">
+        <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+    </div>
+
+
 </div>
 </div>
 </html>

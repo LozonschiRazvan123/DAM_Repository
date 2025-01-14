@@ -130,7 +130,10 @@ public class ComandaProdusController {
 
         return "redirect:/comenzi";
     }
-
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
     @PostMapping("/save")
     public String saveComanda(
             @RequestParam("furnizor.idFurnizor") Long furnizorId,

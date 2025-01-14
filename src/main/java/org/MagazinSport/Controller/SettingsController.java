@@ -51,6 +51,9 @@ public class SettingsController {
         // Redirecționează utilizatorul înapoi la pagina settings
         return "redirect:/settings";
     }
-
+   /* @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }*/
 
 }

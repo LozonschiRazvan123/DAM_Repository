@@ -54,6 +54,10 @@ public class FurnizorController {
         Furnizor savedFurnizor = furnizorService.saveFurnizor(furnizor);
         return ResponseEntity.ok(savedFurnizor);
     }*/
+@GetMapping("/")
+public String viewIndex() {
+    return "index"; // Numele fișierului index.html din templates
+}
     @GetMapping("/edit/{id}")
     public String editFurnizor(@PathVariable Long id, Model model) {
         Optional<Furnizor> furnizor = furnizorService.getFurnizorById(id);

@@ -4,6 +4,7 @@ import org.MagazinSport.Model.ComandaAprovizionare;
 import org.MagazinSport.Model.Furnizor;
 import org.MagazinSport.Services.ComandaAprovizionareService;
 import org.MagazinSport.Services.FurnizorService;
+import org.MagazinSport.Services.ProdusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +80,19 @@ public class ComandaAprovizionareController {
         }
         return ResponseEntity.notFound().build();
     }
+    //private final ProdusService produsService;
 
+//    @Autowired
+//    public ComandaAprovizionareController(ComandaAprovizionareService comandaService, FurnizorService furnizorService, ProdusService produsService) {
+//        this.comandaService = comandaService;
+//        this.furnizorService = furnizorService;
+//        //this.produsService = produsService;
+//    }
+
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComanda(@PathVariable Long id) {
         if (comandaService.getComandaAprovizionareById(id).isPresent()) {

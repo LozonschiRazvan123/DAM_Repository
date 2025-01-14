@@ -28,6 +28,14 @@ public class StocController {
     @Autowired
     private ProdusService produsService;
 
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
+    @GetMapping("/st")
+    public String viewIndex2() {
+        return "stocuri"; // Numele fișierului index.html din templates
+    }
     @GetMapping
     public String showStocuriPage(Model model) {
         List<Stoc> stocuri = stocService.getAllStocuri();

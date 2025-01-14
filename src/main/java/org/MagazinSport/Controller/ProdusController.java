@@ -65,7 +65,10 @@ public class ProdusController {
         model.addAttribute("comandaProdus", new ComandaProdusDTO());
         return "comenzi";
     }
-
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
     @GetMapping("/delete/{id}")
     public String deleteProdus(@PathVariable Long id) {
         try {

@@ -29,7 +29,10 @@ public class VanzareProdusController {
         this.produsService = produsService;
         this.vanzareService = vanzareService;
     }
-
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
     @PostMapping
     public ResponseEntity<VanzareProdusDTO> createVanzareProdus(@RequestBody VanzareProdusDTO vanzareProdusDTO) {
         Produs produs = produsService.getProdusById(vanzareProdusDTO.getProdusId())
