@@ -33,8 +33,9 @@ public class StocService {
     public Optional<Stoc> getStocById(Long id) {
         return stocRepository.findById(id);
     }
-
-    // Update
+    public List<Stoc> getStocuriCuNivelScazut() {
+        return stocRepository.findStocuriCuNivelScazut();
+    }
     public Stoc updateStoc(Long id, Stoc stoc) {
         if (stocRepository.existsById(id)) {
             stoc.setIdStoc(id);
@@ -44,7 +45,6 @@ public class StocService {
         }
     }
 
-    // Delete
     public void deleteStoc(Long id) {
         if (stocRepository.existsById(id)) {
             stocRepository.deleteById(id);
@@ -53,7 +53,6 @@ public class StocService {
         }
     }
 
-    // Metode suplimentare
     public List<Stoc> findStocBelowQuantity(int cantitate) {
         return stocRepository.findByCantitateLessThan(cantitate);
     }

@@ -107,12 +107,32 @@
         .btn-delete:hover {
             background-color: #e53935;
         }
+        .alert-container {
+        margin: 20px 0;
+    }
+
+    .alert {
+        padding: 15px;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        color: #721c24;
+        margin-bottom: 10px;
+    }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Gestionare comenzi</h1>
 
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Formular comenzi -->
     <form action="/comenzi/save" method="post">
         <label for="furnizor">Furnizor:</label>
         <select id="furnizor" name="furnizor.idFurnizor" required>
@@ -132,9 +152,8 @@
             </div>
         </div>
 
-        <button type="submit">Adauga Comanda</button>
+        <button type="submit">Adaugă Comanda</button>
     </form>
-
     <h2>Lista comenzi</h2>
     <table class="table table-bordered table-striped table-hover">
         <thead>
