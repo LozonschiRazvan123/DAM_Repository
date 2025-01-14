@@ -77,9 +77,7 @@
 <div class="container">
   <h1>Actualizare Comandă</h1>
 
-  <!-- Formular pentru actualizare comandă -->
   <form th:action="@{/comenzi/update}" method="post">
-  <!-- ID-ul comenzii este ascuns, dar transmis pentru backend -->
     <input type="hidden" name="idComandaAprovizionare" th:value="${comanda.idComandaAprovizionare}">
 
     <label for="furnizor">Furnizor:</label>
@@ -93,7 +91,6 @@
     </select>
 
     <div id="products-container">
-      <!-- Iterare pentru fiecare produs din comandă -->
       <div class="product-item" th:each="produsComanda, iterStat : ${comanda.produseComandate}">
         <h3 th:text="'Produs ' + (${iterStat.index} + 1) + ': ' + ${produsComanda.produs.nume}"></h3>
         <input type="hidden" th:name="'produseDTO[' + ${iterStat.index} + '].produsId'" th:value="${produsComanda.produs.idProdus}">
