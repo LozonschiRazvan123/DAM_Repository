@@ -28,7 +28,10 @@ public class  BusinessIntelligenceController {
         this.businessIntelligenceService = businessIntelligenceService;
         this.produsService = produsService;
     }
-
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
 /*
     @GetMapping
     public String showBusinessIntelligencePage() {

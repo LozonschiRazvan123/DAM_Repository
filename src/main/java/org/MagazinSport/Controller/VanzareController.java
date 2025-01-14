@@ -26,7 +26,10 @@ public class VanzareController {
     public Map<String, Object> getDailySales() {
         return vanzareService.getDailySales();
     }
-
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
     @GetMapping("/monthly")
     public Map<String, Object> getMonthlySales() {
         return vanzareService.getMonthlySales();

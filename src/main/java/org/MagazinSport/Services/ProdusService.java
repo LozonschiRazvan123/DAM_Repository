@@ -1,7 +1,10 @@
 package org.MagazinSport.Services;
 
+import org.MagazinSport.Model.ComandaAprovizionare;
 import org.MagazinSport.Model.Produs;
+import org.MagazinSport.Repository.ComandaAprovizionareRepository;
 import org.MagazinSport.Repository.ProdusRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -89,6 +92,17 @@ public class ProdusService {
             throw new RuntimeException("Produsul nu a fost găsit!");
         }
     }
+    @Autowired
+    private ComandaAprovizionareRepository comandaRepository;
+
+    public List<ComandaAprovizionare> getAllComenzi() {
+        return comandaRepository.findAll();
+    }
+
+    public void saveComanda(ComandaAprovizionare comanda) {
+        comandaRepository.save(comanda);
+    }
+
 
     public List<Produs> getAllActiveProduse() {
         return produsRepository.findByActiveTrue(); // Căutăm doar produsele active

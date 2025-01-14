@@ -24,7 +24,10 @@ public class AlerteStocController {
     private AlerteStocService alerteStocService;
     @Autowired
     private StocService stocService;
-
+    @GetMapping("/")
+    public String viewIndex() {
+        return "index"; // Numele fișierului index.html din templates
+    }
     @GetMapping("/active")
     public String getAlerteActive(Model model) {
         List<AlerteStoc> alerte = alerteStocService.getAlerteActive();
