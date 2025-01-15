@@ -34,7 +34,6 @@ public class ComandaProdusController {
         this.alerteStoc = alerteStoc;
     }
 
-    // Afișarea paginii de comenzi
     @GetMapping
     public String viewComenzi(Model model) {
         List<Produs> produse = produsService.getAllProduse();
@@ -95,7 +94,6 @@ public class ComandaProdusController {
         return "redirect:/comenzi";
     }
 
-    // Actualizarea unei comenzi existente
     @PostMapping("/update")
     public String updateComanda(
             @RequestParam("idComandaAprovizionare") Long idComanda,
@@ -104,18 +102,15 @@ public class ComandaProdusController {
             RedirectAttributes redirectAttributes
     ) {
         try {
-            // Obține comanda existentă
             ComandaAprovizionare comanda = comandaAprovizionareService.findById(idComanda);
             if (comanda == null) {
                 throw new IllegalArgumentException("Comanda cu ID-ul " + idComanda + " nu a fost găsită!");
             }
 
-            // Actualizează furnizorul
             Furnizor furnizor = furnizorService.getFurnizorById(furnizorId)
                     .orElseThrow(() -> new IllegalArgumentException("Furnizorul nu a fost găsit!"));
             comanda.setFurnizor(furnizor);
 
-            // Actualizează lista de produse comandate
             List<ComandaProdus> produseComandate = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 String produsKey = "produseDTO[" + i + "].produsId";
@@ -143,14 +138,12 @@ public class ComandaProdusController {
             }
 
             if (produseComandate.isEmpty()) {
-                throw new IllegalArgumentException("Comanda trebuie să conțină cel puțin un produs!");
+                throw new IllegalArgumentException("Comanda trebuie sa contina cel putin un produs!");
             }
 
-            // Golește lista existentă și adaugă produsele noi
             comanda.getProduseComandate().clear();
             comanda.getProduseComandate().addAll(produseComandate);
 
-            // Salvează modificările
             comandaAprovizionareService.saveComandaAprovizionare(comanda);
 
             redirectAttributes.addFlashAttribute("successMessage", "Comanda a fost actualizată cu succes!");
@@ -162,7 +155,6 @@ public class ComandaProdusController {
     }
 
 
-    // Metodă comună pentru procesarea produselor
     private List<ComandaProdus> parseProduse(Map<String, String> params, ComandaAprovizionare comanda) {
         List<ComandaProdus> produseComandate = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

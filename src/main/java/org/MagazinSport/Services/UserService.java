@@ -81,20 +81,16 @@ public class UserService implements UserDetailsService {
         );
     }
     public void changePassword(String username, String currentPassword, String newPassword) {
-        // Găsește utilizatorul după username
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // Verifică dacă parola curentă este corectă
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             throw new IllegalArgumentException("Current password is incorrect.");
         }
 
-        // Actualizează parola
         String encryptedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encryptedPassword);
 
-        // Salvează utilizatorul
         userRepository.save(user);
     }
 
@@ -105,21 +101,17 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateUserProfile(String username, String name, String email, String bio) {
-        // Găsește utilizatorul din baza de date
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // Verifică dacă email-ul este deja folosit de alt utilizator
         if (userRepository.findByEmail(email).isPresent() && !user.getEmail().equals(email)) {
             throw new IllegalArgumentException("Email already in use by another user.");
         }
 
-        // Actualizează câmpurile utilizatorului
         user.setUsername(name);
         user.setEmail(email);
         user.setBio(bio);
 
-        // Salvează utilizatorul
         userRepository.save(user);
     }
 

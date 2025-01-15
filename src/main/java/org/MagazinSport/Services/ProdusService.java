@@ -20,12 +20,10 @@ public class ProdusService {
         this.produsRepository = produsRepository;
     }
 
-    // Metodă unică pentru a obține toate produsele
     public List<Produs> getAllProduse() {
         return produsRepository.findAll();
     }
 
-    // Create
     public Produs saveProdus(Produs produs) {
         if (produs.getStoc() < 0) {
             throw new IllegalArgumentException("Stocul nu poate fi negativ!");
@@ -33,12 +31,11 @@ public class ProdusService {
         return produsRepository.save(produs);
     }
 
-    // Read
+
     public Optional<Produs> getProdusById(Long id) {
         return produsRepository.findById(id);
     }
 
-    // Update
     public Produs updateProdus(Long id, Produs produs) {
         if (!produsRepository.existsById(id)) {
             throw new IllegalArgumentException("Produsul cu ID-ul " + id + " nu a fost găsit!");
@@ -53,7 +50,6 @@ public class ProdusService {
         return produsRepository.save(produs);
     }
 
-    // Delete
     public void deleteProdus(Long id) {
         if (!produsRepository.existsById(id)) {
             throw new IllegalArgumentException("Produsul cu ID-ul " + id + " nu există!");
@@ -61,7 +57,6 @@ public class ProdusService {
         produsRepository.deleteById(id);
     }
 
-    // Căutări suplimentare
     public List<Produs> findProduseByFurnizorId(Long idFurnizor) {
         return produsRepository.findByFurnizor_IdFurnizor(idFurnizor);
     }
@@ -105,6 +100,6 @@ public class ProdusService {
 
 
     public List<Produs> getAllActiveProduse() {
-        return produsRepository.findByActiveTrue(); // Căutăm doar produsele active
+        return produsRepository.findByActiveTrue();
     }
 }

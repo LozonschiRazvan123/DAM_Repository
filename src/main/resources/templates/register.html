@@ -110,7 +110,6 @@
 <div class="container">
   <h1>Register</h1>
 
-  <!-- Formular de înregistrare -->
   <form action="/register" method="post" th:action="@{/register}" th:object="${registerDTO}">
     <div>
       <label for="username">Username:</label>
@@ -132,7 +131,6 @@
       <input type="password" id="confirmedPassword" name="confirmedPassword" th:field="*{confirmedPassword}" required>
     </div>
 
-    <!-- Secțiune pentru butonul de submit -->
     <div class="form-actions">
       <button type="submit">Register</button>
     </div>

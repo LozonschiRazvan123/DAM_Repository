@@ -78,11 +78,9 @@
 <div class="container">
     <h1>Settings</h1>
 
-    <!-- Profile Settings -->
     <div class="section">
         <h2>Profile Settings</h2>
 
-        <!-- Mesaje de notificare -->
         <div th:if="${successMessage}" class="success-message" style="color: green; padding: 10px; border: 1px solid green; border-radius: 5px; background-color: #d4edda;">
             <p th:text="${successMessage}"></p>
         </div>
@@ -106,12 +104,10 @@
 
 
 
-    <!-- Account Settings -->
     <div class="section">
 
         <div class="section">
             <h2>Change Password</h2>
-            <!-- Afișare mesaje -->
             <div class="notification-container">
                 <div th:if="${errorMessage}" class="error-message" style="color: red; padding: 10px; border: 1px solid red; border-radius: 5px; background-color: #f8d7da;">
                     <p th:text="${errorMessage}" style="margin: 0; font-weight: bold;"></p>
@@ -121,7 +117,6 @@
                 </div>
             </div>
 
-            <!-- Formular schimbare parolă -->
             <form th:action="@{/settings/changePassword}" method="post">
                 <label for="currentPassword">Current Password:</label>
                 <input type="password" id="currentPassword" name="currentPassword" required>
@@ -139,12 +134,11 @@
     </div>
 
 
-    <!-- Log Out -->
     <form th:action="@{/logout}" method="post">
         <button type="submit">Log Out</button>
     </form>
     <div style="margin-top: 20px;">
-        <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+        <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Inapoi</a>
     </div>
 
 

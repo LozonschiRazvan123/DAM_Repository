@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <title>Gestionare Furnizori</title>
   <style>
@@ -160,7 +160,7 @@ transform: scale(1.05);
 <div class="container">
   <h1>Gestionare furnizori</h1>
 
-  <form th:action="@{/furnizori/save}" method="post">
+  <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{/furnizori/save}" method="post">
     <label for="nume">Nume furnizor</label>
     <input type="text" id="nume" name="nume" placeholder="Introduceti numele furnizorului" required>
 
@@ -202,12 +202,12 @@ transform: scale(1.05);
       <td th:text="${furnizor.email}"></td>
       <td>
         <div class="button-group">
-          <a th:href="@{/furnizori/edit/{id}(id=${furnizor.idFurnizor})}" class="btn btn-edit">
+          <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/furnizori/edit/{id}(id=${furnizor.idFurnizor})}" class="btn btn-edit">
             Editare
           </a>
-          <a th:href="@{/furnizori/delete/{id}(id=${furnizor.idFurnizor})}"
+          <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/furnizori/delete/{id}(id=${furnizor.idFurnizor})}"
              class="btn btn-delete"
-             onclick="return confirm('Sigur doriți să ștergeți acest furnizor?');">
+             onclick="return confirm('Sigur doriti sa stergeti acest furnizor?');">
             Stergere
           </a>
           <a th:href="@{/furnizori/comanda/{id}(id=${furnizor.idFurnizor})}" class="btn btn-order">
@@ -221,7 +221,7 @@ transform: scale(1.05);
 
   </table>
   <div style="margin-top: 20px;">
-    <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+    <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Inapoi</a>
   </div>
 
 

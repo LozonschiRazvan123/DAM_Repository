@@ -28,7 +28,7 @@ public class VanzareController {
     }
     @GetMapping("/")
     public String viewIndex() {
-        return "index"; // Numele fișierului index.html din templates
+        return "index";
     }
     @GetMapping("/monthly")
     public Map<String, Object> getMonthlySales() {
@@ -48,10 +48,10 @@ public class VanzareController {
         try {
             System.out.println("Date primite din frontend: " + vanzare);
             vanzareRepository.save(vanzare);
-            return ResponseEntity.ok("Vânzare adăugată cu succes!");
+            return ResponseEntity.ok("Vanzare adaugata cu succes!");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Eroare la salvarea vânzării: " + e.getMessage());
+            return ResponseEntity.status(500).body("Eroare la salvarea vanzarii: " + e.getMessage());
         }
     }
 

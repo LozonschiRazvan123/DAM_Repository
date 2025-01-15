@@ -18,22 +18,18 @@ public class ComandaProdusService {
         this.comandaProdusRepository = comandaProdusRepository;
     }
 
-    // Create
     public void saveComandaProdus(List<ComandaProdus> comandaProduse) {
-        comandaProdusRepository.saveAll(comandaProduse); // Folosim saveAll pentru a salva lista de produse
+        comandaProdusRepository.saveAll(comandaProduse);
     }
 
-    // Read - Get All
     public List<ComandaProdus> getAllComandaProduse() {
         return comandaProdusRepository.findAll();
     }
 
-    // Read - Get by ID
     public Optional<ComandaProdus> getComandaProdusById(Long id) {
         return comandaProdusRepository.findById(id);
     }
 
-    // Update
     public ComandaProdus updateComandaProdus(Long id, ComandaProdus comandaProdus) {
         if (comandaProdusRepository.existsById(id)) {
             comandaProdus.setId(id);
@@ -42,17 +38,14 @@ public class ComandaProdusService {
         return null;
     }
 
-    // Delete
     public void deleteComandaProdus(Long id) {
         comandaProdusRepository.deleteById(id);
     }
 
-    // Custom Query - Get by ComandaAprovizionare ID
     public List<ComandaProdus> getComandaProduseByComandaId(Long comandaId) {
         return comandaProdusRepository.findByComandaAprovizionare_IdComandaAprovizionare(comandaId);
     }
 
-    // Custom Query - Get by Produs ID
     public List<ComandaProdus> getComandaProduseByProdusId(Long produsId) {
         return comandaProdusRepository.findByProdus_IdProdus(produsId);
     }

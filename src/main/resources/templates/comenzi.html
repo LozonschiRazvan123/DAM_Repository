@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -191,7 +191,7 @@
             <td th:text="${comanda.pretUnitate}"></td>
             <td>
                 <a th:href="@{'/comenzi/edit/' + ${comanda.comandaAprovizionareId}}" class="btn btn-edit">Editează</a>
-                <a th:href="@{'/comenzi/delete/' + ${comanda.comandaAprovizionareId}}"
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/comenzi/delete/' + ${comanda.comandaAprovizionareId}}"
                    class="btn btn-delete"
                    onclick="return confirm('Do you want to delete this order?');">
                     Sterge

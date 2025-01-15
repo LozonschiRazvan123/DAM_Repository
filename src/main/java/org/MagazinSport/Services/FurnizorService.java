@@ -18,7 +18,6 @@ public class FurnizorService {
         this.furnizorRepository = furnizorRepository;
     }
 
-    // Create
     public Furnizor saveFurnizor(Furnizor furnizor) {
         return furnizorRepository.save(furnizor);
     }
@@ -32,7 +31,6 @@ public class FurnizorService {
         return furnizorRepository.findById(id);
     }
 
-    // Update
     public Furnizor updateFurnizor(Long id, Furnizor furnizor) {
         Optional<Furnizor> existingFurnizor = furnizorRepository.findById(id);
 
@@ -48,12 +46,10 @@ public class FurnizorService {
     }
 
 
-    // Delete
     public void deleteFurnizor(Long id) {
         furnizorRepository.deleteById(id);
     }
 
-    // Metode suplimentare
     public Optional<Furnizor> findFurnizorByNume(String nume) {
         return furnizorRepository.findByNume(nume);
     }

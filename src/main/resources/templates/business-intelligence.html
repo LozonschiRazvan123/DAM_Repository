@@ -243,11 +243,11 @@
 
             <form th:action="@{/business-intelligence/total-profit}" method="get">
                 <div class="form-group">
-                    <label for="startDateProfit">Data de început:</label>
+                    <label for="startDateProfit">Data de inceput:</label>
                     <input type="date" id="startDateProfit" name="startDate" th:value="${startDate}" required>
                 </div>
                 <div class="form-group">
-                    <label for="endDateProfit">Data de sfârșit:</label>
+                    <label for="endDateProfit">Data de sfarsit:</label>
                     <input type="date" id="endDateProfit" name="endDate" th:value="${endDate}" required>
                 </div>
                 <div class="form-group">
@@ -285,7 +285,7 @@
                         <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
                     </select>
                 </div>
-                <button type="submit">Calculează Estimare Stoc</button>
+                <button type="submit">Calculeaza estimare stoc</button>
             </form>
 
             <div th:if="${estimatedStock != null}">
@@ -313,7 +313,7 @@
         </div>
     </div>
     <div style="margin-top: 20px;">
-        <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+        <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Inapoi</a>
     </div>
 
 </div>

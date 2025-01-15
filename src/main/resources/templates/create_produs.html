@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Creează Produs</title>
+  <title>Creeaza produs</title>
 </head>
 <body>
-<h1>Creează Produs</h1>
+<h1>Creeaza produs</h1>
 
 <form th:action="@{/produse/save}" th:object="${produs}" method="post">
-  <label for="nume">Nume Produs:</label>
+  <label for="nume">Nume produs:</label>
   <input type="text" id="nume" th:field="*{nume}" required>
 
   <label for="categorie">Categorie:</label>
   <input type="text" id="categorie" th:field="*{categorie}" required>
 
-  <label for="pretVanzare">Preț Vânzare:</label>
+  <label for="pretVanzare">Pret vanzare:</label>
   <input type="number" id="pretVanzare" th:field="*{pretVanzare}" step="0.01" required>
 
-  <label for="pretAchizitie">Preț Achiziție:</label>
+  <label for="pretAchizitie">Pret achizitie:</label>
   <input type="number" id="pretAchizitie" th:field="*{pretAchizitie}" step="0.01" required>
 
   <label for="stoc">Stoc:</label>
@@ -26,7 +26,7 @@
 
   <label for="furnizor">Furnizor:</label>
   <select id="furnizor" th:field="*{furnizor.idFurnizor}" required>
-    <option value="" disabled selected>Selectează un furnizor</option>
+    <option value="" disabled selected>Selecteaza un furnizor</option>
     <option th:each="furnizor : ${furnizori}" th:value="${furnizor.idFurnizor}" th:text="${furnizor.nume}"></option>
   </select>
 

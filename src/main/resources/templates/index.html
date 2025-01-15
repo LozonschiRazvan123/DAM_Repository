@@ -118,13 +118,13 @@
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/vanzari}" class="dashboard-nav-item">
             <i class="fas fa-chart-line"></i> Vanzari
         </a>
-        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/furnizori}" class="dashboard-nav-item">
+        <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" th:href="@{/furnizori}" class="dashboard-nav-item">
             <i class="fas fa-user"></i> Furnizori
         </a>
         <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/business-intelligence}" class="dashboard-nav-item">
             <i class="fas fa-brain"></i> Business Intelligence
         </a>
-        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/settings}" class="dashboard-nav-item">
+        <a sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"  th:href="@{/settings}" class="dashboard-nav-item">
             <i class="fas fa-cogs"></i> Setari
         </a>
 
@@ -141,11 +141,6 @@
             <img src="/image1_0.jpg" alt="Imagine Dashboard"
                  style="width: 100%; border-radius: 3px; margin-top: 2px;">
         </div>
-
-
-
-
-
     </div>
 </div>
 

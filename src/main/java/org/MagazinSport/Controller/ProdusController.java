@@ -67,7 +67,7 @@ public class ProdusController {
     }
     @GetMapping("/")
     public String viewIndex() {
-        return "index"; // Numele fișierului index.html din templates
+        return "index";
     }
     @GetMapping("/delete/{id}")
     public String deleteProdus(@PathVariable Long id) {

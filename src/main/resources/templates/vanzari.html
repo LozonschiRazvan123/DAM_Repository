@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Vânzări</title>
+  <title>Dashboard vanzari</title>
   <style>
     body {
         font-family: Arial, sans-serif;
@@ -108,12 +108,12 @@
 </head>
 <body>
 <div class="container">
-  <h1>Dashboard Vânzări</h1>
+  <h1>Dashboard vanzari</h1>
 
   <div class="button-container">
-    <button class="btn" onclick="showDailySales()">Vânzări Zilnice</button>
-    <button class="btn" onclick="showMonthlySales()">Vânzări Lunare</button>
-    <button class="btn" onclick="showYearlySales()">Vânzări Anuale</button>
+    <button class="btn" onclick="showDailySales()">Vanzari zilnice</button>
+    <button class="btn" onclick="showMonthlySales()">Vanzari lunare</button>
+    <button class="btn" onclick="showYearlySales()">Vanzari anuale</button>
   </div>
 
   <canvas id="salesChart"></canvas>
@@ -122,23 +122,23 @@
     <label for="data">Data:</label>
     <input type="date" id="data" name="data" required>
 
-    <label for="total">Total Vânzări:</label>
+    <label for="total">Total vanzari:</label>
     <div style="display: flex; align-items: center; gap: 10px;">
       <input type="number" id="total" name="total" step="0.01" min="0" required>
       <input type="range" id="totalSlider" min="0" max="10000" step="1" style="flex: 1;">
     </div>
 
-    <label for="trendType">Tip Tendință:</label>
+    <label for="trendType">Tip tendinta:</label>
     <select id="trendType">
       <option value="polynomial">Polinomial</option>
-      <option value="exponential">Exponențial</option>
+      <option value="exponential">Exponential</option>
       <option value="logarithmic">Logaritmic</option>
     </select>
 
-    <button type="submit">Adaugă Vânzare</button>
+    <button type="submit">Adaugă vanzare</button>
   </form>
   <div style="margin-top: 20px;">
-    <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+    <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Inapoi</a>
   </div>
 
 

@@ -31,7 +31,7 @@ public class VanzareProdusController {
     }
     @GetMapping("/")
     public String viewIndex() {
-        return "index"; // Numele fișierului index.html din templates
+        return "index";
     }
     @PostMapping
     public ResponseEntity<VanzareProdusDTO> createVanzareProdus(@RequestBody VanzareProdusDTO vanzareProdusDTO) {

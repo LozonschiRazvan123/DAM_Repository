@@ -30,11 +30,11 @@ public class StocController {
 
     @GetMapping("/")
     public String viewIndex() {
-        return "index"; // Numele fișierului index.html din templates
+        return "index";
     }
     @GetMapping("/st")
     public String viewIndex2() {
-        return "stocuri"; // Numele fișierului index.html din templates
+        return "stocuri";
     }
     @GetMapping
     public String showStocuriPage(Model model) {

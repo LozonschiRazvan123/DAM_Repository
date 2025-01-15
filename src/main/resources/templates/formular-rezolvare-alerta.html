@@ -77,17 +77,15 @@
   <p><strong>Stoc curent:</strong> <span th:text="${stoc.cantitate}"></span></p>
   <p><strong>Stoc minim necesar:</strong> <span th:text="${stoc.nivelMinim}"></span></p>
 
-  <!-- Formularul pentru a adăuga cantitatea -->
   <form th:action="@{/alerte-stoc/rezolva/{id}(id=${alerta.idAlerteStoc})}" method="post">
     <label for="cantitateAdaugata">Cantitate de reaprovizionare:</label>
     <input type="number" id="cantitateAdaugata" name="cantitateAdaugata" min="1" required>
 
-    <button type="submit">Rezolvă Alerta</button>
+    <button type="submit">Rezolva alerta</button>
   </form>
 
-<!--  <p><a href="/alerte-stoc/active">Înapoi la alerte active</a></p>-->
   <div style="margin-top: 20px;">
-    <a href="/alerte-stoc/active" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+    <a href="/alerte-stoc/active" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Inapoi</a>
   </div>
 
 </div>

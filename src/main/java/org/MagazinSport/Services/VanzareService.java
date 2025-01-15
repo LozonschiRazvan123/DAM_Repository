@@ -18,7 +18,6 @@ public class VanzareService {
 
 
 
-    // Conversia DTO -> Model
     public void saveVanzare(VanzareDTO vanzareDTO) {
         Vanzare vanzare = new Vanzare();
         vanzare.setData(vanzareDTO.getData());

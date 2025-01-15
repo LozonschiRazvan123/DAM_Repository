@@ -26,22 +26,18 @@ public class VanzareProdusService {
                 .orElseThrow(() -> new IllegalArgumentException("Vanzare not found"));
     }
 
-    // Create
     public VanzareProdus saveVanzareProdus(VanzareProdus vanzareProdus) {
         return vanzareProdusRepository.save(vanzareProdus);
     }
 
-    // Read - Get All
     public List<VanzareProdus> getAllVanzareProduse() {
         return vanzareProdusRepository.findAll();
     }
 
-    // Read - Get by ID
     public Optional<VanzareProdus> getVanzareProdusById(Long id) {
         return vanzareProdusRepository.findById(id);
     }
 
-    // Update
     public VanzareProdus updateVanzareProdus(Long id, VanzareProdus vanzareProdus) {
         if (vanzareProdusRepository.existsById(id)) {
             vanzareProdus.setId(id);
@@ -50,17 +46,14 @@ public class VanzareProdusService {
         return null;
     }
 
-    // Delete
     public void deleteVanzareProdus(Long id) {
         vanzareProdusRepository.deleteById(id);
     }
 
-    // Custom Query - Get by Vanzare ID
     public List<VanzareProdus> getProduseByVanzareId(Long vanzareId) {
         return vanzareProdusRepository.findByVanzareId(vanzareId);
     }
 
-    // Custom Query - Get by Produs ID
     public List<VanzareProdus> getProduseByProdusId(Long produsId) {
         return vanzareProdusRepository.findByProdus_IdProdus(produsId);
     }

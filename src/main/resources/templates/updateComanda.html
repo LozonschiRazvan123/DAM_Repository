@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Actualizare Comandă</title>
+  <title>Actualizare comanda</title>
   <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,14 +75,14 @@
 </head>
 <body>
 <div class="container">
-  <h1>Actualizare Comandă</h1>
+  <h1>Actualizare comanda</h1>
 
   <form th:action="@{/comenzi/update}" method="post">
     <input type="hidden" name="idComandaAprovizionare" th:value="${comanda.idComandaAprovizionare}">
 
     <label for="furnizor">Furnizor:</label>
     <select id="furnizor" name="furnizor.idFurnizor" required>
-      <option value="" disabled>Selectează un furnizor</option>
+      <option value="" disabled>Selecteaza un furnizor</option>
       <option th:each="furnizor : ${furnizori}"
               th:value="${furnizor.idFurnizor}"
               th:selected="${furnizor.idFurnizor == comanda.furnizor.idFurnizor}"
@@ -99,10 +99,10 @@
       </div>
     </div>
 
-    <button type="submit">Salvează Modificările</button>
+    <button type="submit">Salvează modificarile</button>
   </form>
   <div style="margin-top: 20px;">
-    <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Înapoi</a>
+    <a href="/" class="back-button" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px;">Inapoi</a>
   </div>
 </div>
 </body>

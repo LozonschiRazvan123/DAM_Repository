@@ -57,26 +57,24 @@ public class AlerteStocService {
         if (produs != null) {
             alertaNoua.setProdus(produs.get());
         } else {
-            return "Produsul nu a fost găsit!";
+            return "Produsul nu a fost gasit!";
         }
         alertaNoua.setDataAlerta(new Date(2024/12/17));
 
         alerteStocRepository.save(alertaNoua);
 
-        return "Alerta de stoc a fost generată cu succes!";
+        return "Alerta de stoc a fost generata cu succes!";
     }
     public AlerteStoc findById(Long id) {
         Optional<AlerteStoc> alerta = alerteStocRepository.findById(id);
-        return alerta.orElse(null);  // Returnăm alerta sau null dacă nu o găsim
+        return alerta.orElse(null);
     }
-
-    // Alte metode pentru gestionarea alertelor de stoc
 
     public List<AlerteStoc> getAlerteActive() {
         return alerteStocRepository.findByActiv(true);
     }
 
     public void saveAlert(AlerteStoc alerta) {
-        alerteStocRepository.save(alerta);  // Salvăm alerta actualizată
+        alerteStocRepository.save(alerta);
     }
 }

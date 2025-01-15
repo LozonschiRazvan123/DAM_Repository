@@ -30,7 +30,7 @@ public class  BusinessIntelligenceController {
     }
     @GetMapping("/")
     public String viewIndex() {
-        return "index"; // Numele fișierului index.html din templates
+        return "index";
     }
 /*
     @GetMapping
@@ -41,7 +41,6 @@ public class  BusinessIntelligenceController {
 
     @GetMapping("")
     public String showDashboard(Model model) {
-        // Redirecționăm către o pagină implicită sau dashboard
         model.addAttribute("view", "business-intelligence");
         return "business-intelligence";
     }
@@ -105,7 +104,7 @@ public class  BusinessIntelligenceController {
         if (startDate != null && endDate != null && categorie != null) {
             double totalProfit = businessIntelligenceService.calculateTotalProfitBetweenAndCategory(startDate, endDate, categorie);
             List<String> categories = produsService.getCategories();
-            model.addAttribute("categories", categories);  // Asigură-te că adaugi categoriile în model
+            model.addAttribute("categories", categories);
             model.addAttribute("totalProfit", totalProfit);
             model.addAttribute("startDate", startDate);
             model.addAttribute("endDate", endDate);

@@ -30,15 +30,12 @@ public class FurnizorController {
 
     @GetMapping
     public String showFurnizoriPage(Model model) {
-        // Obține lista furnizorilor din baza de date
         List<Furnizor> furnizori = furnizorService.getAllFurnizori();
-        System.out.println("Furnizori: " + furnizori); // Debugging - afișează furnizorii în consolă
+        System.out.println("Furnizori: " + furnizori);
 
-        // Adaugă lista de furnizori în model pentru Thymeleaf
         model.addAttribute("furnizori", furnizori);
 
-        // Returnează pagina Thymeleaf
-        return "furnizori"; // Numele fișierului Thymeleaf
+        return "furnizori";
     }
 
 
@@ -54,19 +51,19 @@ public class FurnizorController {
         Furnizor savedFurnizor = furnizorService.saveFurnizor(furnizor);
         return ResponseEntity.ok(savedFurnizor);
     }*/
-@GetMapping("/")
-public String viewIndex() {
-    return "index"; // Numele fișierului index.html din templates
+    @GetMapping("/")
+    public String viewIndex() {
+    return "index";
 }
     @GetMapping("/edit/{id}")
     public String editFurnizor(@PathVariable Long id, Model model) {
         Optional<Furnizor> furnizor = furnizorService.getFurnizorById(id);
         if (furnizor.isPresent()) {
             model.addAttribute("furnizor", furnizor.get());
-            return "edit_furnizor"; // Numele paginii Thymeleaf
+            return "edit_furnizor";
         }
 
-        return "redirect:/furnizori?error=not_found"; // Redirecționează dacă furnizorul nu este găsit
+        return "redirect:/furnizori?error=not_found";
     }
     @PostMapping("/update/{id}")
     public String updateFurnizor(@PathVariable Long id, @ModelAttribute Furnizor furnizor) {
@@ -79,7 +76,7 @@ public String viewIndex() {
             updatedFurnizor.setEmail(furnizor.getEmail());
             furnizorService.saveFurnizor(updatedFurnizor);
         }
-        return "redirect:/furnizori"; // Redirecționează către lista de furnizori
+        return "redirect:/furnizori";
     }
 
   /*  @PutMapping("/{id}")
@@ -97,7 +94,7 @@ public String viewIndex() {
     public String saveFurnizor(@Valid @ModelAttribute Furnizor furnizor, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("furnizori", furnizorService.getAllFurnizori());
-            return "furnizori"; // Reafișează formularul cu erori
+            return "furnizori";
         }
         furnizorService.saveFurnizor(furnizor);
         return "redirect:/furnizori";
@@ -109,9 +106,9 @@ public String viewIndex() {
         Optional<Furnizor> furnizor = furnizorService.getFurnizorById(id);
         if (furnizor.isPresent()) {
             furnizorService.deleteFurnizor(id);
-            return "redirect:/furnizori"; // Redirecționează la pagina furnizorilor
+            return "redirect:/furnizori";
         }
-        return "redirect:/furnizori?error=delete_failed"; // Redirecționează cu un mesaj de eroare
+        return "redirect:/furnizori?error=delete_failed";
     }
 
     @GetMapping("/comanda/{id}")
@@ -121,7 +118,7 @@ public String viewIndex() {
             Furnizor furnizor = furnizorOptional.get();
             model.addAttribute("furnizor", furnizor);
             model.addAttribute("produse", furnizor.getProduse());
-            return "comanda_produse"; // Numele paginii unde vor fi listate produsele
+            return "comanda_produse";
         }
         return "redirect:/furnizori?error=not_found";
     }

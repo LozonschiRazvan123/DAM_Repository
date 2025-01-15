@@ -24,9 +24,9 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/favicon.ico", "/resources/**", "/error").permitAll()
 
-                        .requestMatchers("/produse", "/produse/**", "/stocuri", "/comenzi").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/produse", "/produse/**", "/stocuri", "/comenzi", "/settings", "/furnizori/**").hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers("/vanzari", "/business-intelligence", "/alerte-stoc/active", "/alerte-stoc/rezolva/**", "/settings", "/furnizori/**").hasRole("ADMIN")
+                        .requestMatchers("/vanzari", "/business-intelligence", "/alerte-stoc/active", "/alerte-stoc/rezolva/**").hasRole("ADMIN")
                         .requestMatchers("/api/vanzari/**").permitAll()
                         .anyRequest().authenticated()
                 )

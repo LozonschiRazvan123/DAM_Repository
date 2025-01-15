@@ -42,13 +42,11 @@ public class UserController {
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  Model model) {
         try {
-            // Verifică dacă parolele noi coincid
             if (!newPassword.equals(confirmPassword)) {
                 model.addAttribute("errorMessage", "New passwords do not match.");
                 return "settings";
             }
 
-            // Obține utilizatorul curent
             String username = request.getUserPrincipal().getName();
             userService.changePassword(username, currentPassword, newPassword);
 
@@ -77,24 +75,19 @@ public class UserController {
 
     @GetMapping("/settings")
     public String settingsPage(HttpServletRequest request, Model model) {
-        // Obține username-ul utilizatorului curent din contextul de securitate
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // Găsește utilizatorul din baza de date
         org.MagazinSport.Model.User user = userService.getUserByUsername(username);
 
-        // Verifică dacă bio-ul este gol și setează un mesaj predefinit
         String bio = user.getBio();
         if (bio == null || bio.trim().isEmpty()) {
             bio = "Acest cont e pentru administrarea Sporthub.";
         }
 
-        // Adaugă datele utilizatorului în model
         model.addAttribute("name", user.getUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("bio", bio);
 
-        // Adaugă mesajele de succes sau eroare din sesiune
         Object successMessage = request.getSession().getAttribute("successMessage");
         Object errorMessage = request.getSession().getAttribute("errorMessage");
         if (successMessage != null) {
@@ -106,7 +99,7 @@ public class UserController {
             request.getSession().removeAttribute("errorMessage");
         }
 
-        return "settings"; // Returnează șablonul Thymeleaf
+        return "settings";
     }
 
 

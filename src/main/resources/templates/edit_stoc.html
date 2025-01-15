@@ -114,7 +114,7 @@
   <h1>Editare Stoc</h1>
 
   <div class="form-container">
-    <h2>Modifică detaliile stocului</h2>
+    <h2>Modifica detaliile stocului</h2>
     <form th:action="@{/stocuri/update/{id}(id=${stoc.idStoc})}" method="post">
       <input type="hidden" name="id" th:value="${stoc.idStoc}">
       <label for="produs">Produs:</label>
